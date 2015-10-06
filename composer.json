@@ -1,0 +1,15 @@
+{
+  "name" : "mustache-engine",
+  "description" : "a simple mustache templates parser for php",
+  "authors" : [
+    {
+      "name" : "Felix Gagnon-Grenier",
+      "email" : "fractalesque@gmail.com"
+    }
+  ],
+  "autoload" : {
+    "psr-4" : {
+      "Templating\\" : "src/"
+    }
+  }
+}
