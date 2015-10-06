@@ -2,7 +2,9 @@
 
 namespace Templating;
 
-class Parser {
+use RZN\Templating;
+
+class Parser implements Templating {
 
     private $path;
     private $vars;
@@ -14,7 +16,7 @@ class Parser {
         }
     }
 
-    public function render($template,array $values = []) {
+    public function rendre($template,array $values = []) {
         extract($this->vars);
         if (count($values) > 0) extract($values);
         ob_start();
