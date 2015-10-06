@@ -1,6 +1,7 @@
 {
   "name" : "zvax/parser",
   "description" : "a simple php templates parser",
+  "version" : "0.0.1",
   "authors" : [
     {
       "name" : "Felix Gagnon-Grenier",
