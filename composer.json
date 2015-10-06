@@ -1,6 +1,6 @@
 {
-  "name" : "mustache-engine",
-  "description" : "a simple mustache templates parser for php",
+  "name" : "parser",
+  "description" : "a simple php templates parser",
   "authors" : [
     {
       "name" : "Felix Gagnon-Grenier",
