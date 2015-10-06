@@ -1,5 +1,5 @@
 {
-  "name" : "parser",
+  "name" : "zvax/parser",
   "description" : "a simple php templates parser",
   "authors" : [
     {
