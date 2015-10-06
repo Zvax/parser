@@ -7,9 +7,13 @@
       "email" : "fractalesque@gmail.com"
     }
   ],
+  "require" : {
+    "zvax/rzn" : ">0.0.1"
+  },
   "autoload" : {
     "psr-4" : {
       "Templating\\" : "src/"
     }
-  }
+  },
+  "minimum-stability" : "dev"
 }
