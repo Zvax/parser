@@ -7,7 +7,7 @@ use RZN\Templating;
 class Parser implements Templating {
 
     private $path;
-    private $vars;
+    private $vars = [];
 
     public function __construct($path,$vars = []) {
         $this->path = $path;
