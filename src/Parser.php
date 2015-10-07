@@ -29,11 +29,13 @@ class Parser implements Templating {
     }
 
     private function includeFile($template) {
-        foreach ($this->extensions as $extension) {
-            $fullPath = "$this->path$template$extension";
-            if (file_exists($fullPath)) {
-                include $fullPath;
-                return true;
+        foreach ($this->path as $path) {
+            foreach ($this->extensions as $extension) {
+                $fullPath = "$path$template$extension";
+                if (file_exists($fullPath)) {
+                    include $fullPath;
+                    return true;
+                }
             }
         }
         return false;
