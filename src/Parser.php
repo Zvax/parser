@@ -24,18 +24,18 @@ class Parser implements Templating {
         extract($this->vars);
         if (count($values) > 0) extract($values);
         ob_start();
-        $this->includeFile($template);
+        $fullPath = $this->findPath($template);
+        include $fullPath;
         return ob_get_clean();
     }
 
-    private function includeFile($template) {
+    private function findPath($template) {
         $tries = [];
         foreach ($this->path as $path) {
             foreach ($this->extensions as $extension) {
                 $fullPath = "$path$template$extension";
                 if (file_exists($fullPath)) {
-                    include $fullPath;
-                    return true;
+                    return $fullPath;
                 }
                 $tries[] = $fullPath;
             }
