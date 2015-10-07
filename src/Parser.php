@@ -29,6 +29,7 @@ class Parser implements Templating {
     }
 
     private function includeFile($template) {
+        $tries = [];
         foreach ($this->path as $path) {
             foreach ($this->extensions as $extension) {
                 $fullPath = "$path$template$extension";
@@ -36,9 +37,10 @@ class Parser implements Templating {
                     include $fullPath;
                     return true;
                 }
+                $tries[] = $fullPath;
             }
         }
-        throw new \Exception("template not found: [$template]");
+        throw new \Exception("templates not found: [ ".implode(" ; ",$tries)." ]");
     }
 
 }
