@@ -24,7 +24,7 @@ class Parser implements Templating {
         extract($this->vars);
         if (count($values) > 0) extract($values);
         ob_start();
-        if (!$this->includeFile($template)) throw new \Exception("template not found: [$template]");
+        $this->includeFile($template);
         return ob_get_clean();
     }
 
@@ -38,7 +38,7 @@ class Parser implements Templating {
                 }
             }
         }
-        return false;
+        throw new \Exception("template not found: [$template]");
     }
 
 }
