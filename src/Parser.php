@@ -6,18 +6,16 @@ use RZN\Templating;
 
 class Parser implements Templating {
 
-    private $path = [];
-    private $vars = [];
+    private $paths;
+    private $vars;
     private $extensions = [
         ".php",
         ".html"
     ];
 
-    public function __construct($path,$vars = []) {
-        $this->path[] = $path;
-        foreach ($vars as $key => $value) {
-            $this->vars[$key] = $value;
-        }
+    public function __construct(array $paths = [],array $vars = []) {
+        $this->paths = $paths;
+        $this->vars = $vars;
     }
 
     public function render($template,array $values = []) {
@@ -31,7 +29,7 @@ class Parser implements Templating {
 
     private function findPath($template) {
         $tries = [];
-        foreach ($this->path as $path) {
+        foreach ($this->paths as $path) {
             foreach ($this->extensions as $extension) {
                 $fullPath = "$path$template$extension";
                 if (file_exists($fullPath)) {
