@@ -20,7 +20,7 @@ class Parser implements Templating {
         }
     }
 
-    public function rendre($template,array $values = []) {
+    public function render($template,array $values = []) {
         extract($this->vars);
         if (count($values) > 0) extract($values);
         ob_start();
