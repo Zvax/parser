@@ -4,9 +4,9 @@ To be used with php files containing html mingled with php tags echoing vars
 
 template.php:
 
-<pre>
+```html
 <p><?php echo $text ?></p>
-</pre>
+```
 
 index.php:
 
