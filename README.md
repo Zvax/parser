@@ -19,7 +19,7 @@ $paths = [
 ];
 $parser = new \Templating\Parser($paths);
 
-$parser->render('post',[
+echo $parser->render('post',[
     'text' => 'hello worlds',
 ]);
 ```
