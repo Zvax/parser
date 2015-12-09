@@ -1,25 +1,22 @@
 # Simple php templates parser
 
-To be used with php files containing html mingled with php tags echoing vars
+Basic usage: extend the ```Templating\Template``` abstract class with view objects.
 
-post.php:
+Those view objects should present protected values that will be echoed. The templates should use ```$this``` to access the values of the view object.
 
-```
-<p><?php echo $text ?></p>
-```
+```class SiteView extends Template {
+       protected $title = "default title";
+       protected $body= "default body";
+   }
+   $siteView = new SiteView();
+   echo $siteView->render('path/to/template.php');```
 
-index.php:
+template:
 
-```
-<?php
-
-$paths = [
-    __DIR__."/../templates/",
-    __DIR__."/../",
-];
-$parser = new \Templating\Parser($paths);
-
-$parser->render('post',[
-    'text' => 'hello worlds',
-]);
-```
+```<!DOCTYPE html>
+   <html>
+   <head>
+       <title><?= $this->title ?></title>
+   </head>
+   <body><?= $this->body ?></body>
+   </html>```
