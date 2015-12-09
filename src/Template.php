@@ -12,6 +12,6 @@ abstract class Template implements Renderer {
             throw new InvalidFileException($template);
         }
         require $template;
-        return ob_get_flush();
+        return ob_get_clean();
     }
 }
