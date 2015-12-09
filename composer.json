@@ -1,5 +1,5 @@
 {
-  "name" : "zvax/parser",
+  "name" : "zvax/templating",
   "description" : "a simple php templates parser",
   "authors" : [
     {
@@ -7,14 +7,9 @@
       "email" : "fractalesque@gmail.com"
     }
   ],
-  "require" : {
-    "php" : ">=5.3.0",
-    "zvax/rzn" : ">=0.0.0"
-  },
   "autoload" : {
     "psr-4" : {
       "Templating\\" : "src/"
     }
-  },
-  "minimum-stability" : "dev"
+  }
 }
