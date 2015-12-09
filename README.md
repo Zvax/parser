@@ -4,7 +4,7 @@ Basic usage: extend the ```Templating\Template``` abstract class with view objec
 
 Those view objects should present protected values that will be echoed. The templates should use ```$this``` to access the values of the view object.
 
-```
+```php
 class SiteView extends Template {
     protected $title = "default title";
     protected $body= "default body";
@@ -15,7 +15,7 @@ echo $siteView->render('path/to/template.php');
 
 template:
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
