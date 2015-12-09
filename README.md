@@ -15,7 +15,7 @@ echo $siteView->render('path/to/template.php');
 
 template:
 
-```html
+```php
 <!DOCTYPE html>
 <html>
 <head>
