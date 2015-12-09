@@ -5,7 +5,6 @@ namespace Templating;
 use Templating\Exceptions\InvalidFileException;
 
 abstract class Template implements Renderer {
-
     public function render($template, $value = null)
     {
         ob_start();
@@ -13,7 +12,6 @@ abstract class Template implements Renderer {
             throw new InvalidFileException($template);
         }
         require $template;
-        return ob_end_flush();
+        return ob_get_flush();
     }
-
 }
