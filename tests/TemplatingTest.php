@@ -9,5 +9,11 @@ class TemplatingTest extends \Tests\BaseTestCase
 
         $string = $view->render(__DIR__.'/templates/test_template.php');
         $this->assertInternalType('string',$string);
+
+    }
+    public function testException() {
+        $this->setExpectedException('Templating\Exceptions\InvalidFileException');
+        $view = new \Tests\ExampleTemplate();
+        $view->render('nonfile');
     }
 }
