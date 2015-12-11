@@ -11,9 +11,20 @@ class TemplatingTest extends \Tests\BaseTestCase
         $this->assertInternalType('string',$string);
 
     }
-    public function testException() {
+    public function testException()
+    {
         $this->setExpectedException('Templating\Exceptions\InvalidFileException');
         $view = new \Tests\ExampleTemplate();
         $view->render('nonfile');
     }
+
+    public function testAcceptsObjectAndRendersIt()
+    {
+        $view = new \Tests\ExampleViewObject();
+        $renderer = new \Templating\PhpTemplatesRenderer();
+        $string = $renderer->render(__DIR__.'/templates/test_template.php',$view);
+        $this->assertInternalType('string',$string);
+        $this->assertContains('default body',$string);
+    }
+
 }
