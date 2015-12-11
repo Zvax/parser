@@ -13,6 +13,12 @@ class PhpTemplatesRenderer implements Renderer
             throw new InvalidFileException($template);
         }
         ob_start();
+        $this->activate($template,$value);
+        return ob_get_clean();
+    }
+
+    private function activate($template, $value)
+    {
         $scope = function() use ($template) { require $template; };
         if ($value !== null)
         {
@@ -23,7 +29,6 @@ class PhpTemplatesRenderer implements Renderer
             $scope = $scope->bindTo($value);
         }
         $scope();
-        return ob_get_clean();
     }
 
     private function makeObject(array $value)
