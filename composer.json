@@ -1,15 +1,19 @@
 {
-  "name" : "zvax/templating",
-  "description" : "a simple php templates parser",
-  "authors" : [
-    {
-      "name" : "Felix Gagnon-Grenier",
-      "email" : "fractalesque@gmail.com"
+    "name": "zvax/templating",
+    "description": "a simple php templates parser",
+    "authors": [
+        {
+            "name": "Felix Gagnon-Grenier",
+            "email": "fractalesque@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Templating\\": "src/",
+            "Tests\\": "tests/src/"
+        }
     }
-  ],
-  "autoload" : {
-    "psr-4" : {
-      "Templating\\" : "src/"
-    }
-  }
 }
