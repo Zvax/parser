@@ -27,4 +27,14 @@ class TemplatingTest extends \Tests\BaseTestCase
         $this->assertContains('default body',$string);
     }
 
+    public function testAcceptsArrayAndRendersValues()
+    {
+        $renderer = new \Templating\PhpTemplatesRenderer();
+        $string = $renderer->render(__DIR__.'/templates/test_template.php',[
+            'body' => 'body from array',
+        ]);
+        $this->assertInternalType('string',$string);
+        $this->assertContains('body from array',$string);
+    }
+
 }
