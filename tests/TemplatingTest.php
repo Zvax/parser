@@ -21,20 +21,33 @@ class TemplatingTest extends \Tests\BaseTestCase
     public function testAcceptsObjectAndRendersIt()
     {
         $view = new \Tests\ExampleViewObject();
-        $renderer = new \Templating\PhpTemplatesRenderer();
-        $string = $renderer->render(__DIR__.'/templates/test_template.php',$view);
+        $loader = new \Storage\FileLoader(__DIR__ . "/templates","php");
+        $renderer = new \Templating\PhpTemplatesRenderer($loader);
+        $string = $renderer->render('test_template',$view);
         $this->assertInternalType('string',$string);
         $this->assertContains('default body',$string);
     }
 
     public function testAcceptsArrayAndRendersValues()
     {
-        $renderer = new \Templating\PhpTemplatesRenderer();
-        $string = $renderer->render(__DIR__.'/templates/test_template.php',[
+        $loader = new \Storage\FileLoader(__DIR__ . "/templates","php");
+        $renderer = new \Templating\PhpTemplatesRenderer($loader);
+        $string = $renderer->render('test_template',[
             'body' => 'body from array',
         ]);
         $this->assertInternalType('string',$string);
         $this->assertContains('body from array',$string);
+    }
+
+    public function testRendersFromBasePath()
+    {
+        $loader = new \Storage\FileLoader(__DIR__ . "/templates","php");
+        $renderer = new \Templating\PhpTemplatesRenderer($loader);
+        $string = $renderer->render('test_template',[
+            'body' => 'whatever',
+        ]);
+        $this->assertInternalType('string',$string);
+        $this->assertContains('whatever',$string);
     }
 
 }

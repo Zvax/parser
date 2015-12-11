@@ -2,32 +2,37 @@
 
 namespace Templating;
 
-use Templating\Exceptions\InvalidFileException;
+use Storage\File;
+use Storage\FileLoader;
 
 class PhpTemplatesRenderer implements Renderer
 {
+    private $loader;
+
+    public function __construct(FileLoader $loader)
+    {
+        $this->loader = $loader;
+    }
+
     public function render($template, $value = null)
     {
-        if (!file_exists($template))
-        {
-            throw new InvalidFileException($template);
-        }
         ob_start();
-        $this->activate($template,$value);
+        $this->activate($this->loader->load($template),$value);
         return ob_get_clean();
     }
 
-    private function activate($template, $value)
+    private function activate(File $file, $value)
     {
-        $scope = function() use ($template) { require $template; };
-        if ($value !== null)
+        $scope = function() use ($file) { require $file; };
+        if ($value === null)
         {
-            if (is_array($value))
-            {
-                $value = $this->makeObject($value);
-            }
-            $scope = $scope->bindTo($value);
+            $value = new \stdClass();
         }
+        else if (is_array($value))
+        {
+            $value = $this->makeObject($value);
+        }
+        $scope = $scope->bindTo($value);
         $scope();
     }
 
