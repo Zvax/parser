@@ -10,7 +10,7 @@
     ],
     "require":
     {
-        "zvax/storage": "0.0.4"
+        "zvax/storage": ">=0.0.4"
     },
     "require-dev":
     {
