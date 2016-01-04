@@ -23,6 +23,10 @@
         {
             "Templating\\": "src/",
             "Tests\\": "tests/src/"
-        }
+        },
+        "files":
+        [
+            "src/templatingFunctions.php"
+        ]
     }
 }

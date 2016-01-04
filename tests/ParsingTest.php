@@ -59,24 +59,12 @@ class ParsingTest extends \Tests\BaseTestCase
     public function testHtmlStringRendering()
     {
         $loader = new \Storage\FileLoader(__DIR__."/templates","html");
+        $rznKeysRenderer = new \Templating\RznKeysRenderer($loader);
         $values = [
             '{zValue}' => 'replaced',
             '{zSecondValue}' => 'replaced2',
         ];
-        $stringReplace = function($matches) use ($values)
-        {
-            $key = $matches[0];
-            if (isset($values[$key]))
-            {
-                return $values[$key];
-            }
-            return $key;
-        };
-        $string = preg_replace_callback(
-            \Templating\TemplateParser::STRING_REGEX,
-            $stringReplace,
-            $loader->getAsString('string_template')
-        );
+        $string = $rznKeysRenderer->render('string_template',$values);
         $this->assertEquals('replacedreplaced2',$string);
     }
 
