@@ -3,25 +3,41 @@
 class ParsingTest extends \Tests\BaseTestCase
 {
 
+    private function parse($string, $regex)
+    {
+        $matches = [];
+        preg_match_all($regex,$string,$matches);
+        return $matches[0];
+    }
+
     public function testRegex()
     {
-        $template = 'here is a {function()} template: {$var1} and {$var2} let\'s see {include file=header} and some $var';
-        $parser = new \Templating\TemplateParser();
+        $template = '
+            here is a {function()} template:
+            {$var1} and {$var2}
+            let\'s see {include file=header}
+            and some $var
+            and some {zString}
+        ';
+
         $this->assertEquals([
             '{$var1}',
             '{$var2}',
-        ], $parser->parseVars($template));
+        ], $this->parse($template,\Templating\TemplateParser::VARIABLE_REGEX));
         $this->assertEquals([
             '$var1',
             '$var2',
             '$var',
-        ], $parser->parseOldVars($template));
+        ], $this->parse($template,\Templating\TemplateParser::OLD_VARIABLE_REGEX));
         $this->assertEquals([
             '{function()}'
-        ],$parser->parseMethods($template));
+        ], $this->parse($template,\Templating\TemplateParser::FUNCTION_REGEX));
         $this->assertEquals([
             '{include file=header}'
-        ],$parser->parseFlow($template));
+        ], $this->parse($template,\Templating\TemplateParser::FLOW_REGEX));
+        $this->assertEquals([
+            '{zString}'
+        ], $this->parse($template,\Templating\TemplateParser::STRING_REGEX));
     }
 
     public function testReplace()
@@ -40,15 +56,28 @@ class ParsingTest extends \Tests\BaseTestCase
 
     }
 
-    public function testRendersOldVars()
+    public function testHtmlStringRendering()
     {
-        $template = 'template with old $var way';
+        $loader = new \Storage\FileLoader(__DIR__."/templates","html");
         $values = [
-            'var' => 'text',
+            '{zValue}' => 'replaced',
+            '{zSecondValue}' => 'replaced2',
         ];
-        $loader = new \Storage\FileLoader(__DIR__."/templates","php");
-        $renderer = new \Templating\PhpTemplatesRenderer($loader);
-
+        $stringReplace = function($matches) use ($values)
+        {
+            $key = $matches[0];
+            if (isset($values[$key]))
+            {
+                return $values[$key];
+            }
+            return $key;
+        };
+        $string = preg_replace_callback(
+            \Templating\TemplateParser::STRING_REGEX,
+            $stringReplace,
+            $loader->getAsString('string_template')
+        );
+        $this->assertEquals('replacedreplaced2',$string);
     }
 
 }
