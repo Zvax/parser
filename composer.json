@@ -10,7 +10,8 @@
     ],
     "require":
     {
-        "zvax/storage": ">=0.0.4"
+        "zvax/storage": "0.0.*",
+        "mustache/mustache": "2.9.*"
     },
     "require-dev":
     {
