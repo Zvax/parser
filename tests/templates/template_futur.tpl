@@ -1,2 +1,1 @@
-{include file=header}
-{$posts}
+{$posts}{zValue}

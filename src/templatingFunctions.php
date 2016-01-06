@@ -2,7 +2,7 @@
 
 namespace Templating;
 
-function getStringReplacementCallback($values = null)
+function getStringReplacementCallback($values)
 {
     $fn = function($matches) use ($values)
     {
@@ -14,4 +14,14 @@ function getStringReplacementCallback($values = null)
         return $key;
     };
     return $fn;
+}
+
+function getVariableReplacementCallback($values)
+{
+    $callback = function($match) use ($values)
+    {
+        $key = trim($match[0],'{$}');
+        return isset($values[$key]) ? $values[$key] : $key;
+    };
+    return $callback;
 }
