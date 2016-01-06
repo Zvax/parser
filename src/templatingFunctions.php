@@ -21,7 +21,20 @@ function getVariableReplacementCallback($values)
     $callback = function($match) use ($values)
     {
         $key = trim($match[0],'{$}');
-        return isset($values[$key]) ? $values[$key] : $key;
+        return getValueFromContext($key,$values);
     };
     return $callback;
+}
+
+function getValueFromContext($key, $context)
+{
+    if (is_array($context))
+    {
+        return isset($context[$key]) ? $context[$key] : '';
+    }
+    else if (isset($context->$key))
+    {
+        return $context->$key;
+    }
+    return '';
 }

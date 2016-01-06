@@ -68,7 +68,7 @@ class ParsingTest extends \Tests\BaseTestCase
         $this->assertEquals('replacedreplaced2',$string);
     }
 
-    public function testPhpTemplateRenderer()
+    public function testEngine()
     {
         $loader = new \Storage\FileLoader(
             __DIR__."/templates",
@@ -80,6 +80,12 @@ class ParsingTest extends \Tests\BaseTestCase
             '{zValue}' => 'post',
         ]);
         $this->assertEquals('postpost',$rendered);
+
+        $stringEngine = new \Templating\Engine();
+        $object = new stdClass();
+        $object->posts = 'post';
+        $stringTemplate = '{$posts}';
+        $this->assertEquals('post',$stringEngine->render($stringTemplate,$object));
     }
 
 }
