@@ -16,7 +16,7 @@ class RznKeysRenderer implements Renderer
     public function render($template, $values = null)
     {
         $string = preg_replace_callback(
-            TemplateParser::STRING_REGEX,
+            Regexes::STRING_REGEX,
             getStringReplacementCallback($values),
             $this->loader->getAsString($template)
         );

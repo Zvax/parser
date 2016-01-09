@@ -12,12 +12,6 @@ namespace Templating;
  */
 class TemplateParser
 {
-    const OLD_VARIABLE_REGEX = '/\$\w+/';
-    const VARIABLE_REGEX = '/{\$[\w]+}/';
-    const FUNCTION_REGEX = '/{[\w]+\(\)}/';
-    const FLOW_REGEX = '/{\w+ \w+=\w+}/';
-    const PROPERTY_REGEX = '/{\$\w+\-\>\w+}/';
-    const STRING_REGEX = '/{z[\w]+}/';
 
     public function replaceVars($templateString, array $values)
     {
@@ -26,7 +20,7 @@ class TemplateParser
             $key = trim($match[0],'{$}');
             return isset($values[$key]) ? $values[$key] : $key;
         };
-        return preg_replace_callback(TemplateParser::VARIABLE_REGEX,$callback,$templateString);
+        return preg_replace_callback(Regexes::VARIABLE_REGEX,$callback,$templateString);
     }
 
 }

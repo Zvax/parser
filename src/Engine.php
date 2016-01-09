@@ -20,12 +20,12 @@ class Engine implements Renderer
 {
     
     private $regexes = [
+        '\Templating\getStringReplacementCallback' => Regexes::STRING_REGEX,
+        '\Templating\getVariableReplacementCallback' => Regexes::VARIABLE_REGEX,
+        '\Templating\getPropertyReplacementCallback' => Regexes::PROPERTY_REGEX,
         //'old_variables' => '/\$\w+/',
-        '\Templating\getStringReplacementCallback' => '/{z[\w]+}/',
-        '\Templating\getVariableReplacementCallback' => '/{\$[\w]+}/',
         //'functions' => '/{[\w]+\(\)}/',
         //'flow' => '/{\w+ \w+=\w+}/',
-        //'property' => '/{\$\w+\-\>\w+}/',
     ];
     
     private $stringTemplateOnly = true;
