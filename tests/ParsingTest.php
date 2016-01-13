@@ -26,6 +26,18 @@ class ParsingTest extends \Tests\BaseTestCase
                 '{$var1}',
                 '{$var2}',
             ],
+            [
+                '{$',
+                '{$',
+            ],
+            [
+                'var1',
+                'var2',
+            ],
+            [
+                '}',
+                '}',
+            ],
         ], $this->parse($template,\Templating\Regexes::VARIABLE_REGEX));
         $this->assertEquals([
             [

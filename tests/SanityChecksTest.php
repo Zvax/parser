@@ -20,7 +20,7 @@ class SanityChecksTest extends \Tests\BaseTestCase
 
         $o->nullValued = null;
         $string = $engine->render('{$this->nullValued}', $o);
-        $this->assertEquals('{$this->nullValued}', $string);
+        $this->assertEquals('', $string);
 
         $o->emptyString = "";
         $string = $engine->render('{$this->emptyString}', $o);

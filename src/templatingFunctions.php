@@ -20,8 +20,12 @@ function getVariableReplacementCallback($values)
 {
     $callback = function($match) use ($values)
     {
-        $key = trim($match[0],'{$}');
-        return getValueFromContext($key,$values);
+        $key = $match[2];
+        if (($value = getValueFromContext($key,$values)) !== false)
+        {
+            return $value;
+        }
+        return $match[0];
     };
     return $callback;
 }
@@ -32,14 +36,20 @@ function getPropertyReplacementCallback($values)
     {
         $className = $match[2];
         $property = $match[4];
-        if (isset($values->$property))
+        if (is_array($values))
+        {
+            if ($instance = getValueFromContext($className, $values))
+            {
+                return property_exists($instance, $property)
+                    ? $instance->$property
+                    : $match[0];
+            }
+        }
+        if (property_exists($values,$property))
         {
             return $values->$property;
         }
-        $instance = getValueFromContext($className, $values);
-        return isset($instance->$property)
-            ? $instance->$property
-            : "$match[1]$match[2]$match[3]";
+        return $match[0];
     };
     return $callback;
 }
@@ -48,11 +58,11 @@ function getValueFromContext($key, $context)
 {
     if (is_array($context))
     {
-        return isset($context[$key]) ? $context[$key] : '';
+        return array_key_exists($key, $context) ? $context[$key] : false;
     }
-    else if (isset($context->$key))
+    else if (property_exists($context,$key))
     {
         return $context->$key;
     }
-    return '';
+    return false;
 }
