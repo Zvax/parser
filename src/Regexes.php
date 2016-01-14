@@ -11,5 +11,5 @@ class Regexes
     const PROPERTY_REGEX = '/({\$)(\w+)(\-\>)(\w+)(})/';
     const STRING_REGEX = '/{z[\w]+}/';
 
-    const FOREACH_REGEX = '/{foreach (\$[\w]+) as (\$[\w]+)}(.+){\/foreach}/s';
+    const FOREACH_REGEX = '/{foreach \$([\w]+) as \$([\w]+)}(.+){\/foreach}/s';
 }

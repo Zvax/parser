@@ -2,6 +2,32 @@
 
 namespace Templating;
 
+function getForeachReplacementCallback($context, $renderer)
+{
+    /** @var Engine $renderer */
+    $fn = function($match) use ($context, $renderer)
+    {
+        $key = $match[1];
+        $array = getValueFromContext($key, $context);
+        if(!is_array($array))
+        {
+            return "$key is not an array";
+        }
+        $subKey = $match[2];
+        $template = $match[3];
+        var_dump($template);
+        $string = '';
+        foreach ($array as $value)
+        {
+            $string.= $renderer->render($template,[
+                $subKey => $value,
+            ]);
+        }
+        return $string;
+    };
+    return $fn;
+}
+
 function getStringReplacementCallback($values)
 {
     $fn = function($matches) use ($values)

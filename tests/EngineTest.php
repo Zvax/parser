@@ -80,16 +80,11 @@ class EngineTest extends BaseTestCase
             '{zValue}' => 'valeur',
         ]);
         $this->assertEquals('valeur', $string);
-
-        $string = $engine->render('{zValue}',[
-            'Value' => 'valeur',
-        ]);
-        $this->assertEquals('valeur', $string);
     }
 
     public function testFlowControl()
     {
-        $template = '{foreach $posts as $post}abc{$post}xyz{/foreach}';
+        $template = '{foreach $posts as $post}{$post}{/foreach}';
         $engine = new Engine();
         $string = $engine->render($template,[
             'posts' => [

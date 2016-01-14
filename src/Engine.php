@@ -23,6 +23,7 @@ class Engine implements Renderer
         '\Templating\getStringReplacementCallback' => Regexes::STRING_REGEX,
         '\Templating\getVariableReplacementCallback' => Regexes::VARIABLE_REGEX,
         '\Templating\getPropertyReplacementCallback' => Regexes::PROPERTY_REGEX,
+        '\Templating\getForeachReplacementCallback' => Regexes::FOREACH_REGEX,
         //'old_variables' => '/\$\w+/',
         //'functions' => '/{[\w]+\(\)}/',
         //'flow' => '/{\w+ \w+=\w+}/',
@@ -55,7 +56,7 @@ class Engine implements Renderer
     {
         foreach ($this->regexes as $callbackCaller => $regex)
         {
-            $string = preg_replace_callback($regex, $callbackCaller($context), $string);
+            $string = preg_replace_callback($regex, $callbackCaller($context, $this), $string);
         }
         return $string;
     }

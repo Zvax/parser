@@ -96,10 +96,10 @@ class ParsingTest extends BaseTestCase
                 '{foreach $posts as $post}abc{$post}xyz{/foreach}',
             ],
             [
-                '$posts',
+                'posts',
             ],
             [
-                '$post'
+                'post'
             ],
             [
                 'abc{$post}xyz'
