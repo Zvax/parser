@@ -15,7 +15,6 @@ function getForeachReplacementCallback($context, $renderer)
         }
         $subKey = $match[2];
         $template = $match[3];
-        var_dump($template);
         $string = '';
         foreach ($array as $value)
         {
