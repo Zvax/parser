@@ -1,6 +1,10 @@
 <?php
 
-class ParsingTest extends \Tests\BaseTestCase
+namespace Tests;
+
+use Templating\Regexes;
+
+class ParsingTest extends BaseTestCase
 {
 
     private function parse($string, $regex)
@@ -38,7 +42,7 @@ class ParsingTest extends \Tests\BaseTestCase
                 '}',
                 '}',
             ],
-        ], $this->parse($template,\Templating\Regexes::VARIABLE_REGEX));
+        ], $this->parse($template,Regexes::VARIABLE_REGEX));
         $this->assertEquals([
             [
                 '$var1',
@@ -46,22 +50,22 @@ class ParsingTest extends \Tests\BaseTestCase
                 '$var',
                 '$object',
             ],
-        ], $this->parse($template,\Templating\Regexes::OLD_VARIABLE_REGEX));
+        ], $this->parse($template,Regexes::OLD_VARIABLE_REGEX));
         $this->assertEquals([
             [
                 '{function()}'
             ],
-        ], $this->parse($template,\Templating\Regexes::FUNCTION_REGEX));
+        ], $this->parse($template,Regexes::FUNCTION_REGEX));
         $this->assertEquals([
             [
                 '{include file=header}'
             ],
-        ], $this->parse($template,\Templating\Regexes::FLOW_REGEX));
+        ], $this->parse($template,Regexes::FLOW_REGEX));
         $this->assertEquals([
             [
                 '{zString}'
             ],
-        ], $this->parse($template,\Templating\Regexes::STRING_REGEX));
+        ], $this->parse($template,Regexes::STRING_REGEX));
         $this->assertEquals([
             [
                 '{$object->property}'
@@ -81,68 +85,29 @@ class ParsingTest extends \Tests\BaseTestCase
             [
                 '}'
             ],
-        ], $this->parse($template,\Templating\Regexes::PROPERTY_REGEX));
+        ], $this->parse($template,Regexes::PROPERTY_REGEX));
     }
 
-    public function testReplace()
+    public function testForeachParsing()
     {
-        $parser = new \Templating\TemplateParser();
-
-        $values = [
-            'first' => 12,
-            'second' => 'hello',
+        $template = '{foreach $posts as $post}abc{$post}xyz{/foreach}';
+        $expected = [
+            [
+                '{foreach $posts as $post}abc{$post}xyz{/foreach}',
+            ],
+            [
+                '$posts',
+            ],
+            [
+                '$post'
+            ],
+            [
+                'abc{$post}xyz'
+            ],
         ];
-
-        $template = 'template with {$first} and {$second}';
-        $replaced = 'template with 12 and hello';
-
-        $this->assertEquals($replaced,$parser->replaceVars($template,$values));
+        $this->assertEquals($expected,$this->parse($template, Regexes::FOREACH_REGEX));
 
     }
 
-    public function testHtmlStringRendering()
-    {
-        $loader = new \Storage\FileLoader(__DIR__."/templates","html");
-        $rznKeysRenderer = new \Templating\RznKeysRenderer($loader);
-        $values = [
-            '{zValue}' => 'replaced',
-            '{zSecondValue}' => 'replaced2',
-        ];
-        $string = $rznKeysRenderer->render('string_template',$values);
-        $this->assertEquals('replacedreplaced2',$string);
-    }
-
-    public function testEngine()
-    {
-        $loader = new \Storage\FileLoader(
-            __DIR__."/templates",
-            "tpl"
-        );
-        $engine = new \Templating\Engine($loader);
-        $rendered = $engine->render('template_futur',[
-            'posts' => 'post',
-            '{zValue}' => 'post',
-        ]);
-        $this->assertEquals('postpost',$rendered);
-
-        $stringEngine = new \Templating\Engine();
-        $object = new stdClass();
-        $object->posts = 'post';
-        $stringTemplate = '{$posts}';
-        $this->assertEquals('post',$stringEngine->render($stringTemplate,$object));
-    }
-
-    public function testPropertiesReplace()
-    {
-        $engine = new \Templating\Engine();
-        $post = new stdClass();
-        $post->value = 'string';
-        $string = $engine->render('{$post->value}',$post);
-        $this->assertEquals('string',$string);
-        $string = $engine->render('{$post->value}',[
-            'post' => $post,
-        ]);
-        $this->assertEquals('string',$string);
-    }
 
 }
