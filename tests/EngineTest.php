@@ -84,15 +84,19 @@ class EngineTest extends BaseTestCase
 
     public function testFlowControl()
     {
-        $template = '{foreach $posts as $post}{$post}{/foreach}';
+        $template = '{foreach $posts as $post}{$post->title}{/foreach}';
         $engine = new Engine();
+        $post1 = new stdClass();
+        $post2 = new stdClass();
+        $post1->title = 'titre1';
+        $post2->title = 'titre2';
         $string = $engine->render($template,[
             'posts' => [
-                'one',
-                'two',
+                $post1,
+                $post2,
             ],
         ]);
-        $this->assertEquals('onetwo',$string);
+        $this->assertEquals('titre1titre2',$string);
     }
 
     public function testCanParseStringWhenNecessary()
