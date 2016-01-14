@@ -95,4 +95,14 @@ class EngineTest extends BaseTestCase
         $this->assertEquals('onetwo',$string);
     }
 
+    public function testCanParseStringWhenNecessary()
+    {
+        $loader = new FileLoader(__DIR__);
+        $engine = new Engine($loader);
+        $string = $engine->render('{$value}',[
+            'value' => 'ok',
+        ]);
+        $this->assertEquals('ok', $string);
+    }
+
 }

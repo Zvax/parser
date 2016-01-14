@@ -54,16 +54,16 @@
         },
         {
             "name": "zvax/storage",
-            "version": "0.0.7",
+            "version": "0.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Zvax/storage.git",
-                "reference": "20e20cc3dcd80976af6ad7d32d3c92b44e4021cc"
+                "reference": "36576d3c6de158d9d8f3e9ea1c34467988367fd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Zvax/storage/zipball/20e20cc3dcd80976af6ad7d32d3c92b44e4021cc",
-                "reference": "20e20cc3dcd80976af6ad7d32d3c92b44e4021cc",
+                "url": "https://api.github.com/repos/Zvax/storage/zipball/36576d3c6de158d9d8f3e9ea1c34467988367fd6",
+                "reference": "36576d3c6de158d9d8f3e9ea1c34467988367fd6",
                 "shasum": ""
             },
             "require-dev": {
@@ -77,7 +77,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2016-01-09 00:19:43"
+            "time": "2016-01-14 01:06:15"
         }
     ],
     "packages-dev": [

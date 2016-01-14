@@ -45,7 +45,9 @@ class Engine implements Renderer
     {
         $templateString = $this->stringTemplateOnly 
             ? $template 
-            : $this->loader->getAsString($template);
+            : ($this->loader->exists($template)
+                ? $this->loader->getAsString($template)
+                : $template);
         
         return $value === null
             ? $templateString
