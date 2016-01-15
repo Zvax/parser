@@ -22,6 +22,7 @@ class ParsingTest extends BaseTestCase
             let\'s see {include file=header}
             and some $var
             and some {zString}
+            and some {string}
             and some {$object->property}
         ';
 
@@ -63,7 +64,12 @@ class ParsingTest extends BaseTestCase
         ], $this->parse($template,Regexes::FLOW_REGEX));
         $this->assertEquals([
             [
-                '{zString}'
+                '{zString}',
+                '{string}',
+            ],
+            [
+                'zString',
+                'string',
             ],
         ], $this->parse($template,Regexes::STRING_REGEX));
         $this->assertEquals([
@@ -71,19 +77,10 @@ class ParsingTest extends BaseTestCase
                 '{$object->property}'
             ],
             [
-                '{$'
-            ],
-            [
                 'object',
             ],
             [
-                '->',
-            ],
-            [
                 'property',
-            ],
-            [
-                '}'
             ],
         ], $this->parse($template,Regexes::PROPERTY_REGEX));
     }

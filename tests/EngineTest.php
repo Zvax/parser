@@ -49,7 +49,7 @@ class EngineTest extends BaseTestCase
         $engine = new Engine($loader);
         $rendered = $engine->render('template_futur',[
             'posts' => 'post',
-            '{zValue}' => 'post',
+            'zValue' => 'post',
         ]);
         $this->assertEquals('postpost',$rendered);
 
@@ -76,16 +76,27 @@ class EngineTest extends BaseTestCase
     public function testStringReplacement()
     {
         $engine = new Engine();
-        $string = $engine->render('{zValue}',[
+        $string = $engine->render('{zValue}{zTransform}{simple}',[
             '{zValue}' => 'valeur',
+            'transform' => 'please',
+            'simple' => 'work',
         ]);
-        $this->assertEquals('valeur', $string);
+        $this->assertEquals('valeurpleasework', $string);
     }
 
     public function testFlowControl()
     {
-        $template = '{foreach $posts as $post}{$post->title}{/foreach}';
+
         $engine = new Engine();
+        $string = $engine->render('{foreach $posts as $post}{$post}{/foreach}',[
+            'posts' => [
+                'post1',
+                'post2',
+            ],
+        ]);
+        $this->assertEquals('post1post2', $string);
+
+        $template = '{foreach $posts as $post}{$post->title}{/foreach}';
         $post1 = new stdClass();
         $post2 = new stdClass();
         $post1->title = 'titre1';
@@ -97,6 +108,8 @@ class EngineTest extends BaseTestCase
             ],
         ]);
         $this->assertEquals('titre1titre2',$string);
+
+
     }
 
     public function testCanParseStringWhenNecessary()
@@ -107,6 +120,20 @@ class EngineTest extends BaseTestCase
             'value' => 'ok',
         ]);
         $this->assertEquals('ok', $string);
+    }
+
+    public function testMixing()
+    {
+        $templateString = '{first}{$second}{$obj->third}';
+        $engine = new Engine();
+        $obj = new stdClass();
+        $obj->third = 'sentence.';
+        $string = $engine->render($templateString,[
+            'first' => 'This ',
+            'second' => 'is a ',
+            'obj' => $obj,
+        ]);
+        $this->assertEquals('This is a sentence.', $string);
     }
 
 }

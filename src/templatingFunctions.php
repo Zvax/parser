@@ -27,16 +27,25 @@ function getForeachReplacementCallback($context, $renderer)
     return $fn;
 }
 
-function getStringReplacementCallback($values)
+function getStringReplacementCallback($context)
 {
-    $fn = function($matches) use ($values)
+    $fn = function($match) use ($context)
     {
-        $key = $matches[0];
-        if (is_array($values) && isset($values[$key]))
+        $key = $match[1];
+        if ($value = getValueFromContext($key, $context))
         {
-            return $values[$key];
+            return $value;
         }
-        return $key;
+        else if (strpos($match[0],'{z') === 0) {
+            if ($value = getValueFromContext($match[0], $context)) {
+                return $value;
+            }
+            $subkey = strtolower(substr($key, 1));
+            if ($value = getValueFromContext($subkey, $context)) {
+                return $value;
+            }
+        }
+        return $match[0];
     };
     return $fn;
 }
@@ -59,8 +68,8 @@ function getPropertyReplacementCallback($values)
 {
     $callback = function($match) use ($values)
     {
-        $className = $match[2];
-        $property = $match[4];
+        $className = $match[1];
+        $property = $match[2];
         if (is_array($values))
         {
             if ($instance = getValueFromContext($className, $values))
