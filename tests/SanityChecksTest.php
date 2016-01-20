@@ -18,13 +18,22 @@ class SanityChecksTest extends \Tests\BaseTestCase
         $engine = new \Templating\Engine();
         $o = new stdClass();
 
-        $o->nullValued = null;
-        $string = $engine->render('{$this->nullValued}', $o);
-        $this->assertEquals('', $string);
+        $o->nullValue = null;
+        $o->falseValue = false;
+        $o->emptyString = '';
 
-        $o->emptyString = "";
-        $string = $engine->render('{$this->emptyString}', $o);
-        $this->assertEquals('', $string);
+        $this->assertEquals('', $engine->render('{$this->nullValue}', $o));
+        $this->assertEquals('', $engine->render('{$this->falseValue}', $o));
+        $this->assertEquals('', $engine->render('{$this->emptyString}', $o));
+
+        $a = [
+            'nullValue' => null,
+            'falseValue' => false,
+            'emptyString' => '',
+        ];
+        $this->assertEquals('', $engine->render('{$nullValue}', $a));
+        $this->assertEquals('', $engine->render('{$falseValue}', $a));
+        $this->assertEquals('', $engine->render('{$emptyString}', $a));
 
     }
 }

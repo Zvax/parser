@@ -92,7 +92,16 @@ function getValueFromContext($key, $context)
 {
     if (is_array($context))
     {
-        return array_key_exists($key, $context) ? $context[$key] : false;
+        if (array_key_exists($key, $context))
+        {
+            $value = $context[$key];
+            if ($value === false)
+            {
+                return '';
+            }
+            return $value;
+        }
+        return false;
     }
     else if (property_exists($context,$key))
     {
