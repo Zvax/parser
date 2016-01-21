@@ -35,5 +35,14 @@ class SanityChecksTest extends \Tests\BaseTestCase
         $this->assertEquals('', $engine->render('{$falseValue}', $a));
         $this->assertEquals('', $engine->render('{$emptyString}', $a));
 
+        $a = [
+            '{zNullValue}' => null,
+            '{zFalseValue}' => false,
+            '{zEmptyString}' => '',
+        ];
+        $this->assertEquals('', $engine->render('{zNullValue}', $a));
+        $this->assertEquals('', $engine->render('{zFalseValue}', $a));
+        $this->assertEquals('', $engine->render('{zEmptyString}', $a));
+
     }
 }
