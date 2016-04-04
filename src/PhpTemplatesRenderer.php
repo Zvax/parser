@@ -16,6 +16,12 @@ class PhpTemplatesRenderer implements Renderer
 
     public function render($template, $value = null)
     {
+
+        if (!$this->loader->exists($template))
+        {
+            return "there is no template for [ $template ]";
+        }
+
         ob_start();
         $this->activate($this->loader->load($template),$value);
         return ob_get_clean();

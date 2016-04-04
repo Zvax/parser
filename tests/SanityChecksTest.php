@@ -45,4 +45,14 @@ class SanityChecksTest extends \Tests\BaseTestCase
         $this->assertEquals('', $engine->render('{zEmptyString}', $a));
 
     }
+
+    public function testPhpRendererDoesntSuckWhenTemplateNotThere()
+    {
+        $loader = new Storage\FileLoader('./');
+        $renderer = new \Templating\PhpTemplatesRenderer($loader);
+        $this->expectOutputString('there is no template for [ i-don-t-exist ]');
+
+        echo $renderer->render('i-don-t-exist');
+
+    }
 }
