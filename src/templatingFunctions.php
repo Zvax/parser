@@ -88,7 +88,11 @@ function getPropertyReplacementCallback($values)
                     : $match[0];
             }
         }
-        if (property_exists($values,$property))
+        else if(is_scalar($values))
+        {
+            return $values;
+        }
+        else if (property_exists($values,$property))
         {
             return $values->$property;
         }
