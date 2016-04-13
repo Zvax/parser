@@ -1,6 +1,6 @@
 <?php
 
-namespace Templating\Exceptions;
+namespace Zvax\Templating\Exceptions;
 
 use Exception;
 

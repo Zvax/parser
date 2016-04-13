@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Templating\Template;
+use Zvax\Templating\Template;
 
 class ExampleTemplate extends Template
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Templating;
+namespace Zvax\Templating;
 
 use Mustache_Engine;
 

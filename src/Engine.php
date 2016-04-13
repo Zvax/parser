@@ -1,6 +1,6 @@
 <?php
 
-namespace Templating;
+namespace Zvax\Templating;
 
 
 use Storage\Loader;
@@ -20,10 +20,10 @@ class Engine implements Renderer
 {
     
     private $regexes = [
-        '\Templating\getStringReplacementCallback' => Regexes::STRING_REGEX,
-        '\Templating\getVariableReplacementCallback' => Regexes::VARIABLE_REGEX,
-        '\Templating\getPropertyReplacementCallback' => Regexes::PROPERTY_REGEX,
-        '\Templating\getForeachReplacementCallback' => Regexes::FOREACH_REGEX,
+        '\Zvax\Templating\getStringReplacementCallback' => Regexes::STRING_REGEX,
+        '\Zvax\Templating\getVariableReplacementCallback' => Regexes::VARIABLE_REGEX,
+        '\Zvax\Templating\getPropertyReplacementCallback' => Regexes::PROPERTY_REGEX,
+        '\Zvax\Templating\getForeachReplacementCallback' => Regexes::FOREACH_REGEX,
         //'old_variables' => '/\$\w+/',
         //'functions' => '/{[\w]+\(\)}/',
         //'flow' => '/{\w+ \w+=\w+}/',

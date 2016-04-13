@@ -1,10 +1,16 @@
 <?php
 
-class SanityChecksTest extends \Tests\BaseTestCase
+namespace Tests;
+
+use Storage\FileLoader;
+use Zvax\Templating\Engine;
+use Zvax\Templating\PhpTemplatesRenderer;
+
+class SanityChecksTest extends BaseTestCase
 {
     public function testNotRendered()
     {
-        $engine = new \Templating\Engine();
+        $engine = new Engine();
         $string = $engine->render('{$defined}{$undefined}',[
             'defined' => ''
         ]);
@@ -15,8 +21,8 @@ class SanityChecksTest extends \Tests\BaseTestCase
 
     public function testEmptyValuesNotRender()
     {
-        $engine = new \Templating\Engine();
-        $o = new stdClass();
+        $engine = new Engine();
+        $o = new \stdClass();
 
         $o->nullValue = null;
         $o->falseValue = false;
@@ -48,8 +54,8 @@ class SanityChecksTest extends \Tests\BaseTestCase
 
     public function testPhpRendererDoesntSuckWhenTemplateNotThere()
     {
-        $loader = new Storage\FileLoader('./');
-        $renderer = new \Templating\PhpTemplatesRenderer($loader);
+        $loader = new FileLoader('./');
+        $renderer = new PhpTemplatesRenderer($loader);
         $this->expectOutputString('there is no template for [ i-don-t-exist ]');
 
         echo $renderer->render('i-don-t-exist');

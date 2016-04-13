@@ -1,10 +1,15 @@
 <?php
 
-class TemplatingTest extends \Tests\BaseTestCase
+namespace Tests;
+
+use Storage\FileLoader;
+use Zvax\Templating\PhpTemplatesRenderer;
+
+class TemplatingTest extends BaseTestCase
 {
     public function testRenders()
     {
-        $view = new \Tests\ExampleTemplate();
+        $view = new ExampleTemplate();
         $this->assertInstanceOf('Tests\ExampleTemplate',$view);
 
         $string = $view->render(__DIR__.'/templates/test_template.php');
@@ -13,16 +18,16 @@ class TemplatingTest extends \Tests\BaseTestCase
     }
     public function testException()
     {
-        $this->setExpectedException('Templating\Exceptions\InvalidFileException');
-        $view = new \Tests\ExampleTemplate();
+        $this->setExpectedException('Zvax\Templating\Exceptions\InvalidFileException');
+        $view = new ExampleTemplate();
         $view->render('nonfile');
     }
 
     public function testAcceptsObjectAndRendersIt()
     {
-        $view = new \Tests\ExampleViewObject();
-        $loader = new \Storage\FileLoader(__DIR__ . "/templates","php");
-        $renderer = new \Templating\PhpTemplatesRenderer($loader);
+        $view = new ExampleViewObject();
+        $loader = new FileLoader(__DIR__ . "/templates","php");
+        $renderer = new PhpTemplatesRenderer($loader);
         $string = $renderer->render('test_template',$view);
         $this->assertInternalType('string',$string);
         $this->assertContains('default body',$string);
@@ -30,8 +35,8 @@ class TemplatingTest extends \Tests\BaseTestCase
 
     public function testAcceptsArrayAndRendersValues()
     {
-        $loader = new \Storage\FileLoader(__DIR__ . "/templates","php");
-        $renderer = new \Templating\PhpTemplatesRenderer($loader);
+        $loader = new FileLoader(__DIR__ . "/templates","php");
+        $renderer = new PhpTemplatesRenderer($loader);
         $string = $renderer->render('test_template',[
             'body' => 'body from array',
         ]);
@@ -41,8 +46,8 @@ class TemplatingTest extends \Tests\BaseTestCase
 
     public function testRendersFromBasePath()
     {
-        $loader = new \Storage\FileLoader(__DIR__ . "/templates","php");
-        $renderer = new \Templating\PhpTemplatesRenderer($loader);
+        $loader = new FileLoader(__DIR__ . "/templates","php");
+        $renderer = new PhpTemplatesRenderer($loader);
         $string = $renderer->render('test_template',[
             'body' => 'whatever',
         ]);

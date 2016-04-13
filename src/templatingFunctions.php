@@ -1,8 +1,8 @@
 <?php
 
-namespace Templating;
+namespace Zvax\Templating;
 
-function getForeachReplacementCallback($context,$renderer)
+function getForeachReplacementCallback($context, $renderer)
 {
     /**
      * @param $match

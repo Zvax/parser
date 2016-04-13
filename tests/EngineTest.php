@@ -3,9 +3,9 @@
 namespace Tests;
 
 use Storage\FileLoader;
-use Templating\Engine;
-use Templating\RznKeysRenderer;
-use Templating\TemplateParser;
+use Zvax\Templating\Engine;
+use Zvax\Templating\RznKeysRenderer;
+use Zvax\Templating\TemplateParser;
 use stdClass;
 
 class EngineTest extends BaseTestCase

@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Templating\Regexes;
+use Zvax\Templating\Regexes;
 
 class ParsingTest extends BaseTestCase
 {
