@@ -29,7 +29,7 @@ class Engine implements Renderer
         //'flow' => '/{\w+ \w+=\w+}/',
     ];
     
-    private $stringTemplateOnly = true;
+    private $isStringParser = true;
     private $loader;
     
     public function __construct(Loader $loader = null)
@@ -37,21 +37,41 @@ class Engine implements Renderer
         if ($loader !== null)
         {
             $this->loader = $loader;
-            $this->stringTemplateOnly = false;
+            $this->isStringParser = false;
+        }
+    }
+
+    private function getTemplateString($template)
+    {
+        if ($this->isStringParser)
+        {
+            return $template;
+        }
+        else
+        {
+            if ($this->loader->exists($template))
+            {
+                return $this->loader->getAsString($template);
+            }
+            else
+            {
+                return $template;
+            }
         }
     }
 
     public function render($template, $value = null)
     {
-        $templateString = $this->stringTemplateOnly 
-            ? $template 
-            : ($this->loader->exists($template)
-                ? $this->loader->getAsString($template)
-                : $template);
-        
-        return $value === null
-            ? $templateString
-            : $this->parse($templateString, $value);
+        $templateString = $this->getTemplateString($template);
+
+        if ($value === null)
+        {
+            return $templateString;
+        }
+        else
+        {
+            return $this->parse($templateString, $value);
+        }
     }
     
     private function parse($string, $context)
