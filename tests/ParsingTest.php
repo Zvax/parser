@@ -1,19 +1,14 @@
 <?php
-
 namespace Tests;
-
 use Zvax\Templating\Regexes;
-
-class ParsingTest extends BaseTestCase
+class ParsingTest extends \PHPUnit_Framework_TestCase
 {
-
     private function parse($string, $regex)
     {
         $matches = [];
-        preg_match_all($regex,$string,$matches);
+        preg_match_all($regex, $string, $matches);
         return $matches;
     }
-
     public function testRegex()
     {
         $template = '
@@ -25,66 +20,82 @@ class ParsingTest extends BaseTestCase
             and some {string}
             and some {$object->property}
         ';
-
-        $this->assertEquals([
+        $this->assertEquals(
             [
-                '{$var1}',
-                '{$var2}',
+                [
+                    '{$var1}',
+                    '{$var2}',
+                ],
+                [
+                    '{$',
+                    '{$',
+                ],
+                [
+                    'var1',
+                    'var2',
+                ],
+                [
+                    '}',
+                    '}',
+                ],
             ],
+            $this->parse($template, Regexes::VARIABLE_REGEX)
+        );
+        $this->assertEquals(
             [
-                '{$',
-                '{$',
+                [
+                    '$var1',
+                    '$var2',
+                    '$var',
+                    '$object',
+                ],
             ],
+            $this->parse($template, Regexes::OLD_VARIABLE_REGEX)
+        );
+        $this->assertEquals(
             [
-                'var1',
-                'var2',
+                [
+                    '{function()}'
+                ],
             ],
+            $this->parse($template, Regexes::FUNCTION_REGEX)
+        );
+        $this->assertEquals(
             [
-                '}',
-                '}',
+                [
+                    '{include file=header}'
+                ],
             ],
-        ], $this->parse($template,Regexes::VARIABLE_REGEX));
-        $this->assertEquals([
+            $this->parse($template, Regexes::FLOW_REGEX)
+        );
+        $this->assertEquals(
             [
-                '$var1',
-                '$var2',
-                '$var',
-                '$object',
+                [
+                    '{zString}',
+                    '{string}',
+                ],
+                [
+                    'zString',
+                    'string',
+                ],
             ],
-        ], $this->parse($template,Regexes::OLD_VARIABLE_REGEX));
-        $this->assertEquals([
+            $this->parse($template, Regexes::STRING_REGEX)
+        );
+        $this->assertEquals(
             [
-                '{function()}'
+                [
+                    '{$object->property}'
+                ],
+                [
+                    'object',
+                ],
+                [
+                    'property',
+                ],
             ],
-        ], $this->parse($template,Regexes::FUNCTION_REGEX));
-        $this->assertEquals([
-            [
-                '{include file=header}'
-            ],
-        ], $this->parse($template,Regexes::FLOW_REGEX));
-        $this->assertEquals([
-            [
-                '{zString}',
-                '{string}',
-            ],
-            [
-                'zString',
-                'string',
-            ],
-        ], $this->parse($template,Regexes::STRING_REGEX));
-        $this->assertEquals([
-            [
-                '{$object->property}'
-            ],
-            [
-                'object',
-            ],
-            [
-                'property',
-            ],
-        ], $this->parse($template,Regexes::PROPERTY_REGEX));
+            $this->parse($template, Regexes::PROPERTY_REGEX)
+        );
     }
-
     public function testForeachParsing()
     {
         $template = '{foreach $posts as $post}abc{$post}xyz{/foreach}';
@@ -102,9 +113,6 @@ class ParsingTest extends BaseTestCase
                 'abc{$post}xyz'
             ],
         ];
-        $this->assertEquals($expected,$this->parse($template, Regexes::FOREACH_REGEX));
-
+        $this->assertEquals($expected, $this->parse($template, Regexes::FOREACH_REGEX));
     }
-
-
 }

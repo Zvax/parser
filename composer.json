@@ -10,12 +10,13 @@
     ],
     "require":
     {
-        "zvax/storage": "^0.0.8",
-        "mustache/mustache": "2.9.*"
+        "php": ">=7.0",
+        "zvax/storage": "^0.0.9",
+        "mustache/mustache": "^2.11"
     },
     "require-dev":
     {
-        "phpunit/phpunit": "5.3.2"
+        "phpunit/phpunit": "^5.6"
     },
     "autoload":
     {
