@@ -3,7 +3,7 @@
 namespace Zvax\Templating;
 
 use Mustache_Engine;
-
+use Templating\Renderer;
 class MustacheRenderer implements Renderer
 {
     private $Renderer;

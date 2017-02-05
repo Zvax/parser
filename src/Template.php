@@ -2,8 +2,8 @@
 
 namespace Zvax\Templating;
 
+use Templating\Renderer;
 use Zvax\Templating\Exceptions\InvalidFileException;
-
 abstract class Template implements Renderer {
     public function render($template, $value = null)
     {

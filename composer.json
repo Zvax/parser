@@ -23,6 +23,7 @@
         "psr-4":
         {
             "Zvax\\Templating\\": "src/",
+            "Templating\\": "src/",
             "Tests\\": "tests/src/"
         },
         "files":
