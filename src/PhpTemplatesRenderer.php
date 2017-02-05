@@ -24,25 +24,28 @@ class PhpTemplatesRenderer implements Renderer
         $scope = function () use ($file) { require $file; };
         if ($value === null)
         {
-            $value = new \stdClass();
+            $scope = $scope->bindTo($this);
         }
         else
         {
             if (is_array($value))
             {
-                $value = $this->makeObject($value);
+                $this->makeObject($value);
+                $scope = $scope->bindTo($this);
+            }
+            else
+            {
+                // dangerously assume that if value is not null and not an array, that it is a view object
+                $scope = $scope->bindTo($value);
             }
         }
-        $scope = $scope->bindTo($value);
         $scope();
     }
     private function makeObject(array $value)
     {
-        $newValue = new \stdClass();
         foreach ($value as $key => $content)
         {
-            $newValue->$key = $content;
+            $this->$key = $content;
         }
-        return $newValue;
     }
 }

@@ -1,9 +1,25 @@
 <?php
 namespace Tests;
 use Storage\FileLoader;
-use Zvax\Templating\PhpTemplatesRenderer;
+use Templating\PhpTemplatesRenderer;
 class TemplatingTest extends \PHPUnit_Framework_TestCase
 {
+    public function testCanAccessRendererFromTemplate()
+    {
+        $loader = new FileLoader(__DIR__.'/templates/', 'php');
+        $renderer = new PhpTemplatesRenderer($loader);
+        $string = $renderer->render('accesses_renderer');
+        $this->assertEquals('value'.PHP_EOL, $string);
+    }
+    public function testAccessesValuesFromSubTemplate ()
+    {
+        $loader = new FileLoader(__DIR__.'/templates/', 'php');
+        $renderer = new PhpTemplatesRenderer($loader);
+        $string = $renderer->render('accesses_renderer_with_values', [
+            'value' => 'value',
+        ]);
+        $this->assertEquals('value', $string);
+    }
     public function testRenders()
     {
         $view = new ExampleTemplate;
