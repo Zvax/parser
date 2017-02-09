@@ -1,6 +1,6 @@
 <?php
 namespace Tests;
-use Zvax\Templating\Template;
+use Templating\Template;
 class ExampleTemplate extends Template
 {
     public $body = "default body";

@@ -1,10 +1,6 @@
 <?php
-
-namespace Zvax\Templating;
-
-
+namespace Templating;
 use Storage\Loader;
-use Templating\Renderer;
 /**
  * Class Engine
  * @package Templating
@@ -18,20 +14,17 @@ use Templating\Renderer;
  */
 class Engine implements Renderer
 {
-
     private $regexes = [
-        '\Zvax\Templating\getStringReplacementCallback' => Regexes::STRING_REGEX,
-        '\Zvax\Templating\getVariableReplacementCallback' => Regexes::VARIABLE_REGEX,
-        '\Zvax\Templating\getPropertyReplacementCallback' => Regexes::PROPERTY_REGEX,
-        '\Zvax\Templating\getForeachReplacementCallback' => Regexes::FOREACH_REGEX,
+        '\Templating\getStringReplacementCallback' => Regexes::STRING_REGEX,
+        '\Templating\getVariableReplacementCallback' => Regexes::VARIABLE_REGEX,
+        '\Templating\getPropertyReplacementCallback' => Regexes::PROPERTY_REGEX,
+        '\Templating\getForeachReplacementCallback' => Regexes::FOREACH_REGEX,
         //'old_variables' => '/\$\w+/',
         //'functions' => '/{[\w]+\(\)}/',
         //'flow' => '/{\w+ \w+=\w+}/',
     ];
-
     private $isStringParser = true;
     private $loader;
-
     public function __construct(Loader $loader = null)
     {
         if ($loader !== null)
@@ -40,7 +33,6 @@ class Engine implements Renderer
             $this->isStringParser = false;
         }
     }
-
     private function getTemplateString($template)
     {
         if ($this->isStringParser)
@@ -59,11 +51,9 @@ class Engine implements Renderer
             }
         }
     }
-
     public function render($template, $value = null)
     {
         $templateString = $this->getTemplateString($template);
-
         if ($value === null)
         {
             return $templateString;
@@ -73,7 +63,6 @@ class Engine implements Renderer
             return $this->parse($templateString, $value);
         }
     }
-
     private function parse($string, $context)
     {
         foreach ($this->regexes as $callbackCaller => $regex)
@@ -82,7 +71,4 @@ class Engine implements Renderer
         }
         return $string;
     }
-
-
-
 }

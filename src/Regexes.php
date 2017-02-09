@@ -1,7 +1,5 @@
 <?php
-
-namespace Zvax\Templating;
-
+namespace Templating;
 class Regexes
 {
     const OLD_VARIABLE_REGEX = '/\$\w+/';
@@ -10,6 +8,5 @@ class Regexes
     const FLOW_REGEX = '/{\w+ \w+=\w+}/';
     const PROPERTY_REGEX = '/{\$(\w+)\-\>(\w+)}/';
     const STRING_REGEX = '/{([\w]+)}/';
-
     const FOREACH_REGEX = '/{foreach \$([\w]+) as \$([\w]+)}(.+){\/foreach}/s';
 }

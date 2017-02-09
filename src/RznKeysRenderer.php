@@ -1,7 +1,6 @@
 <?php
-namespace Zvax\Templating;
+namespace Templating;
 use Storage\Loader;
-use Templating\Renderer;
 class RznKeysRenderer implements Renderer
 {
     private $loader;
@@ -13,7 +12,7 @@ class RznKeysRenderer implements Renderer
     {
         $string = preg_replace_callback(
             Regexes::STRING_REGEX,
-            getStringReplacementCallback($values),
+            \Templating\getStringReplacementCallback($values),
             $this->loader->getAsString($template)
         );
         return $string;

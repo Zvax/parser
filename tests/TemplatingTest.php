@@ -29,7 +29,7 @@ class TemplatingTest extends \PHPUnit_Framework_TestCase
     }
     public function testException()
     {
-        $this->expectException('Zvax\Templating\Exceptions\InvalidFileException');
+        $this->expectException('Templating\Exceptions\InvalidFileException');
         $view = new ExampleTemplate;
         $view->render('nonfile');
     }

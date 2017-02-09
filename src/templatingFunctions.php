@@ -1,7 +1,5 @@
 <?php
-
-namespace Zvax\Templating;
-
+namespace Templating;
 function getForeachReplacementCallback($context, $renderer)
 {
     /**
@@ -9,10 +7,10 @@ function getForeachReplacementCallback($context, $renderer)
      * @return string
      * @var Engine $renderer
      */
-    $fn = function ($match) use ($context,$renderer)
+    $fn = function ($match) use ($context, $renderer)
     {
         $key = $match[1];
-        $array = getValueFromContext($key,$context);
+        $array = getValueFromContext($key, $context);
         if (!is_array($array))
         {
             return "$key is not an array";
@@ -22,9 +20,12 @@ function getForeachReplacementCallback($context, $renderer)
         $string = '';
         foreach ($array as $value)
         {
-            $string .= $renderer->render($template,[
-                $subKey => $value,
-            ]);
+            $string .= $renderer->render(
+                $template,
+                [
+                    $subKey => $value,
+                ]
+            );
         }
         return $string;
     };
@@ -36,22 +37,25 @@ function getStringReplacementCallback($context)
     $fn = function ($match) use ($context)
     {
         $key = $match[1];
-        if ($value = getValueFromContext($key,$context))
+        if ($value = getValueFromContext($key, $context))
         {
             return $value;
         }
-        else if (strpos($match[0],'{z') === 0)
+        else
         {
-            $value = getValueFromContext($match[0],$context);
-            if ($value !== false)
+            if (strpos($match[0], '{z') === 0)
             {
-                return $value;
-            }
-            $subkey = strtolower(substr($key,1));
-            $value = getValueFromContext($subkey,$context);
-            if ($value !== false)
-            {
-                return $value;
+                $value = getValueFromContext($match[0], $context);
+                if ($value !== false)
+                {
+                    return $value;
+                }
+                $subkey = strtolower(substr($key, 1));
+                $value = getValueFromContext($subkey, $context);
+                if ($value !== false)
+                {
+                    return $value;
+                }
             }
         }
         return $match[0];
@@ -64,7 +68,7 @@ function getVariableReplacementCallback($values)
     $callback = function ($match) use ($values)
     {
         $key = $match[2];
-        if (($value = getValueFromContext($key,$values)) !== false)
+        if (($value = getValueFromContext($key, $values)) !== false)
         {
             return $value;
         }
@@ -81,31 +85,37 @@ function getPropertyReplacementCallback($values)
         $property = $match[2];
         if (is_array($values))
         {
-            if ($instance = getValueFromContext($className,$values))
+            if ($instance = getValueFromContext($className, $values))
             {
-                return property_exists($instance,$property)
+                return property_exists($instance, $property)
                     ? $instance->$property
                     : $match[0];
             }
         }
-        else if(is_scalar($values))
+        else
         {
-            return $values;
-        }
-        else if (property_exists($values,$property))
-        {
-            return $values->$property;
+            if (is_scalar($values))
+            {
+                return $values;
+            }
+            else
+            {
+                if (property_exists($values, $property))
+                {
+                    return $values->$property;
+                }
+            }
         }
         return $match[0];
     };
     return $callback;
 }
 
-function getValueFromContext($key,$context)
+function getValueFromContext($key, $context)
 {
     if (is_array($context))
     {
-        if (array_key_exists($key,$context))
+        if (array_key_exists($key, $context))
         {
             $value = $context[$key];
             if ($value === false || $value === null)
@@ -116,14 +126,17 @@ function getValueFromContext($key,$context)
         }
         return false;
     }
-    else if (property_exists($context,$key))
+    else
     {
-        $value = $context->$key;
-        if ($value === false || $value === null)
+        if (property_exists($context, $key))
         {
-            return '';
+            $value = $context->$key;
+            if ($value === false || $value === null)
+            {
+                return '';
+            }
+            return $context->$key;
         }
-        return $context->$key;
     }
     return false;
 }

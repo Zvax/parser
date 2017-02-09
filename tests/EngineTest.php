@@ -2,9 +2,9 @@
 namespace Tests;
 use stdClass;
 use Storage\FileLoader;
-use Zvax\Templating\Engine;
-use Zvax\Templating\RznKeysRenderer;
-use Zvax\Templating\TemplateParser;
+use Templating\Engine;
+use Templating\RznKeysRenderer;
+use Templating\TemplateParser;
 class EngineTest extends \PHPUnit_Framework_TestCase
 {
     public function testReplace()
@@ -77,35 +77,6 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $this->assertEquals('valeurpleasework', $string);
-    }
-    public function testFlowControl()
-    {
-        $engine = new Engine;
-        $string = $engine->render(
-            '{foreach $posts as $post}{$post}{/foreach}',
-            [
-                'posts' => [
-                    'post1',
-                    'post2',
-                ],
-            ]
-        );
-        $this->assertEquals('post1post2', $string);
-        $template = '{foreach $posts as $post}{$post->title}{/foreach}';
-        $post1 = new stdClass;
-        $post2 = new stdClass;
-        $post1->title = 'titre1';
-        $post2->title = 'titre2';
-        $string = $engine->render(
-            $template,
-            [
-                'posts' => [
-                    $post1,
-                    $post2,
-                ],
-            ]
-        );
-        $this->assertEquals('titre1titre2', $string);
     }
     public function testCanParseStringWhenNecessary()
     {

@@ -11,8 +11,7 @@
     "require":
     {
         "php": ">=7.0",
-        "zvax/storage": "^0.0.9",
-        "mustache/mustache": "^2.11"
+        "zvax/storage": "^0.0.9"
     },
     "require-dev":
     {

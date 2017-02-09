@@ -1,6 +1,6 @@
 <?php
 namespace Tests;
-use Zvax\Templating\Regexes;
+use Templating\Regexes;
 class ParsingTest extends \PHPUnit_Framework_TestCase
 {
     private function parse($string, $regex)

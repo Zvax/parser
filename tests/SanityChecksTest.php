@@ -1,8 +1,8 @@
 <?php
 namespace Tests;
 use Storage\FileLoader;
+use Templating\Engine;
 use Templating\PhpTemplatesRenderer;
-use Zvax\Templating\Engine;
 class SanityChecksTest extends \PHPUnit_Framework_TestCase
 {
     public function testNotRendered()

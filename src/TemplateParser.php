@@ -1,7 +1,5 @@
 <?php
-
-namespace Zvax\Templating;
-
+namespace Templating;
 /**
  * Class TemplateParser
  * @package Templating
@@ -12,15 +10,13 @@ namespace Zvax\Templating;
  */
 class TemplateParser
 {
-
     public function replaceVars($templateString, array $values)
     {
-        $callback = function($match) use ($values)
+        $callback = function ($match) use ($values)
         {
-            $key = trim($match[0],'{$}');
+            $key = trim($match[0], '{$}');
             return isset($values[$key]) ? $values[$key] : $key;
         };
-        return preg_replace_callback(Regexes::VARIABLE_REGEX,$callback,$templateString);
+        return preg_replace_callback(Regexes::VARIABLE_REGEX, $callback, $templateString);
     }
-
 }

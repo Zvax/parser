@@ -1,5 +1,6 @@
 language: php
 php:
+ - 7.1
  - 7.0
 script: phpunit tests --bootstrap tests/bootstrap.php
 install: composer install
