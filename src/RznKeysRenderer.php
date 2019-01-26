@@ -8,7 +8,7 @@ class RznKeysRenderer implements Renderer
     {
         $this->loader = $loader;
     }
-    public function render($template, $values = null)
+    public function render($template, $values = null): string
     {
         $string = preg_replace_callback(
             Regexes::STRING_REGEX,

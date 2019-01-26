@@ -51,16 +51,16 @@ class Engine implements Renderer
             }
         }
     }
-    public function render($template, $value = null)
+    public function render($template, $values = null): string
     {
         $templateString = $this->getTemplateString($template);
-        if ($value === null)
+        if ($values === null)
         {
             return $templateString;
         }
         else
         {
-            return $this->parse($templateString, $value);
+            return $this->parse($templateString, $values);
         }
     }
     private function parse($string, $context)

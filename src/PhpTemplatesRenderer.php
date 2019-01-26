@@ -9,14 +9,14 @@ class PhpTemplatesRenderer implements Renderer
     {
         $this->loader = $loader;
     }
-    public function render($template, $value = null)
+    public function render($template, $values = null): string
     {
         if (!$this->loader->exists($template))
         {
             return "there is no template for [ $template ]";
         }
         ob_start();
-        $this->activate($this->loader->load($template), $value);
+        $this->activate($this->loader->load($template), $values);
         return ob_get_clean();
     }
     private function activate(File $file, $value)
