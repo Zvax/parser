@@ -1,7 +1,8 @@
 <?php
 namespace Tests;
+use PHPUnit\Framework\TestCase;
 use Templating\Regexes;
-class ParsingTest extends \PHPUnit_Framework_TestCase
+class ParsingTest extends TestCase
 {
     private function parse($string, $regex)
     {

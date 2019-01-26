@@ -1,8 +1,9 @@
 <?php
 namespace Tests;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Templating\Engine;
-class ForeachTest extends \PHPUnit_Framework_TestCase
+class ForeachTest extends TestCase
 {
     public function testFlowControl()
     {

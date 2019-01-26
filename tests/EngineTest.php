@@ -5,7 +5,8 @@ use Storage\FileLoader;
 use Templating\Engine;
 use Templating\RznKeysRenderer;
 use Templating\TemplateParser;
-class EngineTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+class EngineTest extends TestCase
 {
     public function testReplace()
     {

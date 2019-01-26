@@ -1,9 +1,10 @@
 <?php
 namespace Tests;
+use PHPUnit\Framework\TestCase;
 use Storage\FileLoader;
 use Templating\Engine;
 use Templating\PhpTemplatesRenderer;
-class SanityChecksTest extends \PHPUnit_Framework_TestCase
+class SanityChecksTest extends TestCase
 {
     public function testNotRendered()
     {

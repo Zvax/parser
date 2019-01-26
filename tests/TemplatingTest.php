@@ -1,8 +1,9 @@
 <?php
 namespace Tests;
+use PHPUnit\Framework\TestCase;
 use Storage\FileLoader;
 use Templating\PhpTemplatesRenderer;
-class TemplatingTest extends \PHPUnit_Framework_TestCase
+class TemplatingTest extends TestCase
 {
     public function testCanAccessRendererFromTemplate()
     {
