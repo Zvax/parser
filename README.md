@@ -1,4 +1,10 @@
-# Simple templates parser engine
+# Templating
+
+Mostly abandoned project, used for the Renderer interface, and the Twig Adapter so that I can use it in other projects.
+
+The following is still somewhat true.
+
+## Simple templates parser engine
 
 The Engine is the parser, it will regex template strings and replace keys with values
 
