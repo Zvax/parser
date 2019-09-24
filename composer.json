@@ -12,7 +12,7 @@
     {
         "php": ">=7.2",
         "zvax/storage": "^0.0.9",
-        "twig/twig": "^2.6"
+        "twig/twig": "^2.11"
     },
     "require-dev":
     {
