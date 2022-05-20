@@ -1,7 +1,10 @@
 <?php
+
 namespace Tests;
+
 use PHPUnit\Framework\TestCase;
 use Templating\Regexes;
+
 class ParsingTest extends TestCase
 {
     private function parse($string, $regex)
@@ -10,6 +13,7 @@ class ParsingTest extends TestCase
         preg_match_all($regex, $string, $matches);
         return $matches;
     }
+
     public function testRegex()
     {
         $template = '
@@ -97,6 +101,7 @@ class ParsingTest extends TestCase
             $this->parse($template, Regexes::PROPERTY_REGEX)
         );
     }
+
     public function testForeachParsing()
     {
         $template = '{foreach $posts as $post}abc{$post}xyz{/foreach}';

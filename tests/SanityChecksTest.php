@@ -1,9 +1,12 @@
 <?php
+
 namespace Tests;
+
 use PHPUnit\Framework\TestCase;
 use Storage\FileLoader;
 use Templating\Engine;
 use Templating\PhpTemplatesRenderer;
+
 class SanityChecksTest extends TestCase
 {
     public function testNotRendered()
@@ -19,6 +22,7 @@ class SanityChecksTest extends TestCase
         // only the {$undefined} is undefined,
         // it should appear in the output
     }
+
     public function testEmptyValuesNotRender()
     {
         $engine = new Engine();
@@ -46,6 +50,7 @@ class SanityChecksTest extends TestCase
         $this->assertEquals('', $engine->render('{zFalseValue}', $a));
         $this->assertEquals('', $engine->render('{zEmptyString}', $a));
     }
+
     public function testPhpRendererDoesntSuckWhenTemplateNotThere()
     {
         $loader = new FileLoader('./');

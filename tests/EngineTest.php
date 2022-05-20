@@ -1,14 +1,17 @@
 <?php
+
 namespace Tests;
+
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Storage\FileLoader;
 use Templating\Engine;
 use Templating\RznKeysRenderer;
 use Templating\TemplateParser;
-use PHPUnit\Framework\TestCase;
+
 class EngineTest extends TestCase
 {
-    public function testReplace()
+    public function testReplace(): void
     {
         $parser = new TemplateParser;
         $values = [
@@ -19,7 +22,8 @@ class EngineTest extends TestCase
         $replaced = 'template with 12 and hello';
         $this->assertEquals($replaced, $parser->replaceVars($template, $values));
     }
-    public function testHtmlStringRendering()
+
+    public function testHtmlStringRendering(): void
     {
         $loader = new FileLoader(__DIR__ . "/templates", "html");
         $rznKeysRenderer = new RznKeysRenderer($loader);
@@ -30,7 +34,8 @@ class EngineTest extends TestCase
         $string = $rznKeysRenderer->render('string_template', $values);
         $this->assertEquals('replacedreplaced2', $string);
     }
-    public function testEngine()
+
+    public function testEngine(): void
     {
         $loader = new FileLoader(
             __DIR__ . "/templates",
@@ -51,7 +56,8 @@ class EngineTest extends TestCase
         $stringTemplate = '{$posts}';
         $this->assertEquals('post', $stringEngine->render($stringTemplate, $object));
     }
-    public function testPropertiesReplace()
+
+    public function testPropertiesReplace(): void
     {
         $engine = new Engine;
         $post = new stdClass;
@@ -66,7 +72,8 @@ class EngineTest extends TestCase
         );
         $this->assertEquals('string', $string);
     }
-    public function testStringReplacement()
+
+    public function testStringReplacement(): void
     {
         $engine = new Engine;
         $string = $engine->render(
@@ -79,6 +86,7 @@ class EngineTest extends TestCase
         );
         $this->assertEquals('valeurpleasework', $string);
     }
+
     public function testCanParseStringWhenNecessary()
     {
         $loader = new FileLoader(__DIR__);
@@ -91,6 +99,7 @@ class EngineTest extends TestCase
         );
         $this->assertEquals('ok', $string);
     }
+
     public function testMixing()
     {
         $templateString = '{first}{$second}{$obj->third}';

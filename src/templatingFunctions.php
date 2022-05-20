@@ -1,4 +1,5 @@
 <?php
+
 namespace Templating;
 function getForeachReplacementCallback($context, $renderer)
 {
@@ -7,19 +8,16 @@ function getForeachReplacementCallback($context, $renderer)
      * @return string
      * @var Engine $renderer
      */
-    $fn = function ($match) use ($context, $renderer)
-    {
+    $fn = static function ($match) use ($context, $renderer) {
         $key = $match[1];
         $array = getValueFromContext($key, $context);
-        if (!is_array($array))
-        {
+        if (!is_array($array)) {
             return "$key is not an array";
         }
         $subKey = $match[2];
         $template = $match[3];
         $string = '';
-        foreach ($array as $value)
-        {
+        foreach ($array as $value) {
             $string .= $renderer->render(
                 $template,
                 [
@@ -34,26 +32,19 @@ function getForeachReplacementCallback($context, $renderer)
 
 function getStringReplacementCallback($context)
 {
-    $fn = function ($match) use ($context)
-    {
+    $fn = static function ($match) use ($context) {
         $key = $match[1];
-        if ($value = getValueFromContext($key, $context))
-        {
+        if ($value = getValueFromContext($key, $context)) {
             return $value;
-        }
-        else
-        {
-            if (strpos($match[0], '{z') === 0)
-            {
+        } else {
+            if (strpos($match[0], '{z') === 0) {
                 $value = getValueFromContext($match[0], $context);
-                if ($value !== false)
-                {
+                if ($value !== false) {
                     return $value;
                 }
                 $subkey = strtolower(substr($key, 1));
                 $value = getValueFromContext($subkey, $context);
-                if ($value !== false)
-                {
+                if ($value !== false) {
                     return $value;
                 }
             }
@@ -65,11 +56,9 @@ function getStringReplacementCallback($context)
 
 function getVariableReplacementCallback($values)
 {
-    $callback = function ($match) use ($values)
-    {
+    $callback = static function ($match) use ($values) {
         $key = $match[2];
-        if (($value = getValueFromContext($key, $values)) !== false)
-        {
+        if (($value = getValueFromContext($key, $values)) !== false) {
             return $value;
         }
         return $match[0];
@@ -79,29 +68,20 @@ function getVariableReplacementCallback($values)
 
 function getPropertyReplacementCallback($values)
 {
-    $callback = function ($match) use ($values)
-    {
+    $callback = static function ($match) use ($values) {
         $className = $match[1];
         $property = $match[2];
-        if (is_array($values))
-        {
-            if ($instance = getValueFromContext($className, $values))
-            {
+        if (is_array($values)) {
+            if ($instance = getValueFromContext($className, $values)) {
                 return property_exists($instance, $property)
                     ? $instance->$property
                     : $match[0];
             }
-        }
-        else
-        {
-            if (is_scalar($values))
-            {
+        } else {
+            if (is_scalar($values)) {
                 return $values;
-            }
-            else
-            {
-                if (property_exists($values, $property))
-                {
+            } else {
+                if (property_exists($values, $property)) {
                     return $values->$property;
                 }
             }
@@ -113,26 +93,19 @@ function getPropertyReplacementCallback($values)
 
 function getValueFromContext($key, $context)
 {
-    if (is_array($context))
-    {
-        if (array_key_exists($key, $context))
-        {
+    if (is_array($context)) {
+        if (array_key_exists($key, $context)) {
             $value = $context[$key];
-            if ($value === false || $value === null)
-            {
+            if ($value === false || $value === null) {
                 return '';
             }
             return $value;
         }
         return false;
-    }
-    else
-    {
-        if (property_exists($context, $key))
-        {
+    } else {
+        if (property_exists($context, $key)) {
             $value = $context->$key;
-            if ($value === false || $value === null)
-            {
+            if ($value === false || $value === null) {
                 return '';
             }
             return $context->$key;

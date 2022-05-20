@@ -1,6 +1,9 @@
 <?php
+
 namespace Templating;
+
 use Storage\Loader;
+
 /**
  * Class Engine
  * @package Templating
@@ -25,48 +28,41 @@ class Engine implements Renderer
     ];
     private $isStringParser = true;
     private $loader;
+
     public function __construct(Loader $loader = null)
     {
-        if ($loader !== null)
-        {
+        if ($loader !== null) {
             $this->loader = $loader;
             $this->isStringParser = false;
         }
     }
+
     private function getTemplateString($template)
     {
-        if ($this->isStringParser)
-        {
+        if ($this->isStringParser) {
             return $template;
         }
-        else
-        {
-            if ($this->loader->exists($template))
-            {
-                return $this->loader->getAsString($template);
-            }
-            else
-            {
-                return $template;
-            }
+
+        if ($this->loader->exists($template)) {
+            return $this->loader->getAsString($template);
         }
+
+        return $template;
     }
+
     public function render($template, $values = null): string
     {
         $templateString = $this->getTemplateString($template);
-        if ($values === null)
-        {
+        if ($values === null) {
             return $templateString;
         }
-        else
-        {
-            return $this->parse($templateString, $values);
-        }
+
+        return $this->parse($templateString, $values);
     }
+
     private function parse($string, $context)
     {
-        foreach ($this->regexes as $callbackCaller => $regex)
-        {
+        foreach ($this->regexes as $callbackCaller => $regex) {
             $string = preg_replace_callback($regex, $callbackCaller($context, $this), $string);
         }
         return $string;

@@ -1,12 +1,13 @@
 <?php
+
 namespace Templating;
 class Regexes
 {
-    const OLD_VARIABLE_REGEX = '/\$\w+/';
-    const VARIABLE_REGEX = '/({\$)([\w]+)(})/';
-    const FUNCTION_REGEX = '/{[\w]+\(\)}/';
-    const FLOW_REGEX = '/{\w+ \w+=\w+}/';
-    const PROPERTY_REGEX = '/{\$(\w+)\-\>(\w+)}/';
-    const STRING_REGEX = '/{([\w]+)}/';
-    const FOREACH_REGEX = '/{foreach \$([\w]+) as \$([\w]+)}(.+){\/foreach}/s';
+    public const OLD_VARIABLE_REGEX = '/\$\w+/';
+    public const VARIABLE_REGEX = '/({\$)([\w]+)(})/';
+    public const FUNCTION_REGEX = '/{[\w]+\(\)}/';
+    public const FLOW_REGEX = '/{\w+ \w+=\w+}/';
+    public const PROPERTY_REGEX = '/{\$(\w+)\-\>(\w+)}/';
+    public const STRING_REGEX = '/{([\w]+)}/';
+    public const FOREACH_REGEX = '/{foreach \$([\w]+) as \$([\w]+)}(.+){\/foreach}/s';
 }

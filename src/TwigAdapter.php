@@ -7,11 +7,8 @@ use Twig\Error;
 
 class TwigAdapter implements Renderer
 {
-    private $twigEnvironment;
-
-    public function __construct(Environment $twig)
+    public function __construct(private Environment $twigEnvironment, private ?string $template_name_append = null)
     {
-        $this->twigEnvironment = $twig;
     }
 
     /**
@@ -24,6 +21,10 @@ class TwigAdapter implements Renderer
      */
     public function render(string $template, array $values = []): string
     {
+        if ($this->template_name_append !== null) {
+            $template .= $this->template_name_append;
+        }
+
         return $this->twigEnvironment->render($template, $values);
     }
 }
