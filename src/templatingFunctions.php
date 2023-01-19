@@ -1,14 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Templating;
-function getForeachReplacementCallback($context, $renderer)
+namespace Zvax\Templating;
+
+use Closure;
+
+function getForeachReplacementCallback(mixed $context, Renderer $renderer): Closure
 {
-    /**
-     * @param $match
-     * @return string
-     * @var Engine $renderer
-     */
-    $fn = static function ($match) use ($context, $renderer) {
+    return static function ($match) use ($context, $renderer) {
         $key = $match[1];
         $array = getValueFromContext($key, $context);
         if (!is_array($array)) {
@@ -27,48 +25,45 @@ function getForeachReplacementCallback($context, $renderer)
         }
         return $string;
     };
-    return $fn;
 }
 
-function getStringReplacementCallback($context)
+function getStringReplacementCallback(mixed $context): Closure
 {
-    $fn = static function ($match) use ($context) {
+    return static function ($match) use ($context) {
         $key = $match[1];
         if ($value = getValueFromContext($key, $context)) {
             return $value;
-        } else {
-            if (strpos($match[0], '{z') === 0) {
-                $value = getValueFromContext($match[0], $context);
-                if ($value !== false) {
-                    return $value;
-                }
-                $subkey = strtolower(substr($key, 1));
-                $value = getValueFromContext($subkey, $context);
-                if ($value !== false) {
-                    return $value;
-                }
+        }
+
+        if (str_starts_with($match[0], '{z')) {
+            $value = getValueFromContext($match[0], $context);
+            if ($value !== false) {
+                return $value;
+            }
+            $subkey = strtolower(substr($key, 1));
+            $value = getValueFromContext($subkey, $context);
+            if ($value !== false) {
+                return $value;
             }
         }
         return $match[0];
     };
-    return $fn;
 }
 
-function getVariableReplacementCallback($values)
+function getVariableReplacementCallback(mixed $values): Closure
 {
-    $callback = static function ($match) use ($values) {
+    return static function ($match) use ($values) {
         $key = $match[2];
         if (($value = getValueFromContext($key, $values)) !== false) {
             return $value;
         }
         return $match[0];
     };
-    return $callback;
 }
 
-function getPropertyReplacementCallback($values)
+function getPropertyReplacementCallback(mixed $values): Closure
 {
-    $callback = static function ($match) use ($values) {
+    return static function ($match) use ($values) {
         $className = $match[1];
         $property = $match[2];
         if (is_array($values)) {
@@ -80,18 +75,17 @@ function getPropertyReplacementCallback($values)
         } else {
             if (is_scalar($values)) {
                 return $values;
-            } else {
-                if (property_exists($values, $property)) {
-                    return $values->$property;
-                }
+            }
+
+            if (property_exists($values, $property)) {
+                return $values->$property;
             }
         }
         return $match[0];
     };
-    return $callback;
 }
 
-function getValueFromContext($key, $context)
+function getValueFromContext(string $key, mixed $context): mixed
 {
     if (is_array($context)) {
         if (array_key_exists($key, $context)) {
@@ -102,14 +96,14 @@ function getValueFromContext($key, $context)
             return $value;
         }
         return false;
-    } else {
-        if (property_exists($context, $key)) {
-            $value = $context->$key;
-            if ($value === false || $value === null) {
-                return '';
-            }
-            return $context->$key;
+    }
+
+    if (property_exists($context, $key)) {
+        $value = $context->$key;
+        if ($value === false || $value === null) {
+            return '';
         }
+        return $context->$key;
     }
     return false;
 }

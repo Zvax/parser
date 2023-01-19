@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Templating\Exceptions;
+namespace Zvax\Templating\Exceptions;
 
 use Exception;
 
 class InvalidFileException extends Exception
 {
-    public function __construct($path, $code = 0, Exception $previous = null)
+    public function __construct(string $path, int $code = 0, Exception $previous = null)
     {
-        $message = "The path [ $path ] doesn't exist";
+        $message = sprintf("The path [ %s ] doesn't exist", $path);
         parent::__construct($message, $code, $previous);
     }
 }

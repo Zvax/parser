@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Templating;
+namespace Zvax\Templating;
+
 class Regexes
 {
     public const OLD_VARIABLE_REGEX = '/\$\w+/';

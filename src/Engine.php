@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Templating;
+namespace Zvax\Templating;
 
-use Storage\Loader;
+use Zvax\Storage\Loader;
 
 /**
  * Class Engine
@@ -17,27 +17,25 @@ use Storage\Loader;
  */
 class Engine implements Renderer
 {
-    private $regexes = [
-        '\Templating\getStringReplacementCallback' => Regexes::STRING_REGEX,
-        '\Templating\getVariableReplacementCallback' => Regexes::VARIABLE_REGEX,
-        '\Templating\getPropertyReplacementCallback' => Regexes::PROPERTY_REGEX,
-        '\Templating\getForeachReplacementCallback' => Regexes::FOREACH_REGEX,
+    private array $regexes = [
+        'Zvax\Templating\getStringReplacementCallback' => Regexes::STRING_REGEX,
+        'Zvax\Templating\getVariableReplacementCallback' => Regexes::VARIABLE_REGEX,
+        'Zvax\Templating\getPropertyReplacementCallback' => Regexes::PROPERTY_REGEX,
+        'Zvax\Templating\getForeachReplacementCallback' => Regexes::FOREACH_REGEX,
         //'old_variables' => '/\$\w+/',
         //'functions' => '/{[\w]+\(\)}/',
         //'flow' => '/{\w+ \w+=\w+}/',
     ];
-    private $isStringParser = true;
-    private $loader;
+    private bool $isStringParser = true;
 
-    public function __construct(Loader $loader = null)
+    public function __construct(private readonly ?Loader $loader = null)
     {
         if ($loader !== null) {
-            $this->loader = $loader;
             $this->isStringParser = false;
         }
     }
 
-    private function getTemplateString($template)
+    private function getTemplateString(string $template): string
     {
         if ($this->isStringParser) {
             return $template;
@@ -50,7 +48,7 @@ class Engine implements Renderer
         return $template;
     }
 
-    public function render($template, $values = null): string
+    public function render(string $template, mixed $values = []): string
     {
         $templateString = $this->getTemplateString($template);
         if ($values === null) {
@@ -60,7 +58,7 @@ class Engine implements Renderer
         return $this->parse($templateString, $values);
     }
 
-    private function parse($string, $context)
+    private function parse(string $string, mixed $context): string
     {
         foreach ($this->regexes as $callbackCaller => $regex) {
             $string = preg_replace_callback($regex, $callbackCaller($context, $this), $string);

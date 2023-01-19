@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Templating;
+namespace Zvax\Templating;
 
-use Templating\Exceptions\InvalidFileException;
+use Zvax\Templating\Exceptions\InvalidFileException;
 
 abstract class Template implements Renderer
 {
-    public function render($template, $value = null): string
+    public function render(string $template, mixed $values = null): string
     {
         if (!file_exists($template)) {
             throw new InvalidFileException($template);

@@ -1,17 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Templating;
+namespace Zvax\Templating;
 
-use Storage\File;
-use Storage\FileLoader;
+use SplFileInfo;
+use Zvax\Storage\FileLoader;
 
 class PhpTemplatesRenderer implements Renderer
 {
-    public function __construct(private FileLoader $loader)
-    {
-    }
+    public function __construct(private readonly FileLoader $loader) {}
 
-    public function render($template, $values = null): string
+    public function render(string $template, mixed $values = []): string
     {
         if (!$this->loader->exists($template)) {
             return "there is no template for [ $template ]";
@@ -21,7 +19,7 @@ class PhpTemplatesRenderer implements Renderer
         return ob_get_clean();
     }
 
-    private function activate(File $file, $value): void
+    private function activate(SplFileInfo $file, mixed $value): void
     {
         $scope = function () use ($file) {
             require $file;

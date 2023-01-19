@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests;
+namespace Zvax\Templating\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Storage\FileLoader;
-use Templating\Engine;
-use Templating\PhpTemplatesRenderer;
+use Zvax\Storage\FileLoader;
+use Zvax\Templating\Engine;
+use Zvax\Templating\PhpTemplatesRenderer;
 
 class SanityChecksTest extends TestCase
 {
-    public function testNotRendered()
+    public function testNotRendered(): void
     {
         $engine = new Engine();
         $string = $engine->render(
@@ -23,7 +23,7 @@ class SanityChecksTest extends TestCase
         // it should appear in the output
     }
 
-    public function testEmptyValuesNotRender()
+    public function testEmptyValuesNotRender(): void
     {
         $engine = new Engine();
         $o = new \stdClass();
@@ -51,7 +51,7 @@ class SanityChecksTest extends TestCase
         $this->assertEquals('', $engine->render('{zEmptyString}', $a));
     }
 
-    public function testPhpRendererDoesntSuckWhenTemplateNotThere()
+    public function testPhpRendererDoesntSuckWhenTemplateNotThere(): void
     {
         $loader = new FileLoader('./');
         $renderer = new PhpTemplatesRenderer($loader);

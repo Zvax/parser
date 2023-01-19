@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Templating;
+namespace Zvax\Templating;
 
 interface Renderer
 {
-    public function render(string $template, array $values = []): string;
+    public function render(string $template, mixed $values = []): string;
 }

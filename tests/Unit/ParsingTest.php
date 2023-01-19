@@ -1,20 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests;
+namespace Zvax\Templating\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Templating\Regexes;
+use Zvax\Templating\Regexes;
 
 class ParsingTest extends TestCase
 {
-    private function parse($string, $regex)
+    /** @return array<int, mixed> */
+    private function parse(string $string, string $regex): array
     {
         $matches = [];
         preg_match_all($regex, $string, $matches);
         return $matches;
     }
 
-    public function testRegex()
+    public function testRegex(): void
     {
         $template = '
             here is a {function()} template:
@@ -25,8 +26,7 @@ class ParsingTest extends TestCase
             and some {string}
             and some {$object->property}
         ';
-        $this->assertEquals(
-            [
+        $this->assertEquals([
                 [
                     '{$var1}',
                     '{$var2}',
@@ -46,8 +46,7 @@ class ParsingTest extends TestCase
             ],
             $this->parse($template, Regexes::VARIABLE_REGEX)
         );
-        $this->assertEquals(
-            [
+        $this->assertEquals([
                 [
                     '$var1',
                     '$var2',
@@ -57,24 +56,21 @@ class ParsingTest extends TestCase
             ],
             $this->parse($template, Regexes::OLD_VARIABLE_REGEX)
         );
-        $this->assertEquals(
-            [
+        $this->assertEquals([
                 [
                     '{function()}'
                 ],
             ],
             $this->parse($template, Regexes::FUNCTION_REGEX)
         );
-        $this->assertEquals(
-            [
+        $this->assertEquals([
                 [
                     '{include file=header}'
                 ],
             ],
             $this->parse($template, Regexes::FLOW_REGEX)
         );
-        $this->assertEquals(
-            [
+        $this->assertEquals([
                 [
                     '{zString}',
                     '{string}',
@@ -86,8 +82,7 @@ class ParsingTest extends TestCase
             ],
             $this->parse($template, Regexes::STRING_REGEX)
         );
-        $this->assertEquals(
-            [
+        $this->assertEquals([
                 [
                     '{$object->property}'
                 ],
@@ -102,7 +97,7 @@ class ParsingTest extends TestCase
         );
     }
 
-    public function testForeachParsing()
+    public function testForeachParsing(): void
     {
         $template = '{foreach $posts as $post}abc{$post}xyz{/foreach}';
         $expected = [

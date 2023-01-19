@@ -1,25 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Templating;
+namespace Zvax\Templating;
 
 use Twig\Environment;
-use Twig\Error;
 
 class TwigAdapter implements Renderer
 {
-    public function __construct(private Environment $twigEnvironment, private ?string $template_name_append = null)
-    {
-    }
+    public function __construct(
+        private readonly Environment $twigEnvironment,
+        private readonly ?string $template_name_append = null,
+    ) {}
 
-    /**
-     * @param string $template
-     * @param array $values
-     * @return string
-     * @throws Error\LoaderError
-     * @throws Error\RuntimeError
-     * @throws Error\SyntaxError
-     */
-    public function render(string $template, array $values = []): string
+    public function render(string $template, mixed $values = []): string
     {
         if ($this->template_name_append !== null) {
             $template .= $this->template_name_append;

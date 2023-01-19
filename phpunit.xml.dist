@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit bootstrap="vendor/autoload.php">
+
+    <coverage includeUncoveredFiles="true"
+              cacheDirectory="cache/phpunit"
+              pathCoverage="true">
+
+        <include>
+            <directory>src</directory>
+        </include>
+
+        <report>
+            <html outputDirectory="coverage" />
+        </report>
+
+    </coverage>
+
+    <testsuites>
+        <testsuite name="default">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

@@ -1,4 +1,8 @@
-<?php /** @var \Tests\ExampleTemplate $this */ ?>
+<?php
+use Zvax\Templating\Tests\ExampleTemplate;
+
+/** @var ExampleTemplate $this */
+?>
 <!DOCTYPE html>
 <html>
 <head>

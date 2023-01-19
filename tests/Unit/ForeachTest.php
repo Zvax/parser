@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests;
+namespace Zvax\Templating\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Templating\Engine;
+use Zvax\Templating\Engine;
 
 class ForeachTest extends TestCase
 {
-    public function testFlowControl()
+    public function testFlowControl(): void
     {
         $engine = new Engine;
         $string = $engine->render(

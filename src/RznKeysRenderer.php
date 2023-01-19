@@ -1,22 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Templating;
+namespace Zvax\Templating;
 
-use Storage\Loader;
+use Zvax\Storage\Loader;
 
 class RznKeysRenderer implements Renderer
 {
-    public function __construct(private Loader $loader)
-    {
-    }
+    public function __construct(private readonly Loader $loader) {}
 
-    public function render($template, $values = null): string
+    public function render(string $template, mixed $values = []): string
     {
-        $string = preg_replace_callback(
+        return preg_replace_callback(
             Regexes::STRING_REGEX,
-            \Templating\getStringReplacementCallback($values),
+            getStringReplacementCallback($values),
             $this->loader->getAsString($template)
         );
-        return $string;
     }
 }

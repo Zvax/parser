@@ -1,13 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace Tests;
+namespace Zvax\Templating\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Storage\FileLoader;
-use Templating\Engine;
-use Templating\RznKeysRenderer;
-use Templating\TemplateParser;
+use Zvax\Storage\FileLoader;
+use Zvax\Templating\Engine;
+use Zvax\Templating\RznKeysRenderer;
+use Zvax\Templating\TemplateParser;
+use Zvax\Templating\Tests\Constants;
 
 class EngineTest extends TestCase
 {
@@ -25,7 +26,7 @@ class EngineTest extends TestCase
 
     public function testHtmlStringRendering(): void
     {
-        $loader = new FileLoader(__DIR__ . "/templates", "html");
+        $loader = new FileLoader(Constants::TEMPLATES_ROOT, "html");
         $rznKeysRenderer = new RznKeysRenderer($loader);
         $values = [
             '{zValue}' => 'replaced',
@@ -38,7 +39,7 @@ class EngineTest extends TestCase
     public function testEngine(): void
     {
         $loader = new FileLoader(
-            __DIR__ . "/templates",
+            Constants::TEMPLATES_ROOT,
             "tpl"
         );
         $engine = new Engine($loader);
@@ -87,7 +88,7 @@ class EngineTest extends TestCase
         $this->assertEquals('valeurpleasework', $string);
     }
 
-    public function testCanParseStringWhenNecessary()
+    public function testCanParseStringWhenNecessary(): void
     {
         $loader = new FileLoader(__DIR__);
         $engine = new Engine($loader);
@@ -100,7 +101,7 @@ class EngineTest extends TestCase
         $this->assertEquals('ok', $string);
     }
 
-    public function testMixing()
+    public function testMixing(): void
     {
         $templateString = '{first}{$second}{$obj->third}';
         $engine = new Engine;

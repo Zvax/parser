@@ -8,8 +8,6 @@ The following is still somewhat true.
 
 The Engine is the parser, it will regex template strings and replace keys with values
 
-The key definitions are shamelessly inspired by Danack/Jig.
-
 ```php
 $templateString = '{first}{$second}{$obj->third}';
 $engine = new Engine();
