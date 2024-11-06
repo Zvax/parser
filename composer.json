@@ -14,7 +14,7 @@
     },
     "require": {
         "php": ">=8.1",
-        "twig/twig": "^2.11",
+        "twig/twig": "^3.11",
         "zvax/storage": "^2.0"
     },
     "require-dev": {
